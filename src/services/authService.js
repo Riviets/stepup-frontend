@@ -49,15 +49,16 @@ export const authService = {
     localStorage.removeItem('accessToken');
   },
 
-  getCurrentUser: async (accessToken) => {
+  getCurrentUser: async () => {
     try {
+      const accessToken = localStorage.getItem('accessToken')      
       const response = await axios.get(`${API_URL}/users/me`, {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json', 
         },
       });
-      return response.data;
+      return response;
     } catch (error) {
       if (error.response) {
         throw new Error(error.response.data.message || 'Помилка отримання даних');

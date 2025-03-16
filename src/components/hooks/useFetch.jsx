@@ -12,7 +12,8 @@ export default function useFetch(fetchFunction){
     async function fetchData(){
         try{
             setIsLoading(true)
-            const response = await fetchFunction
+            const response = await fetchFunction()
+            setData(response.data)
         }
         catch(error){
             setError(error)
