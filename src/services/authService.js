@@ -11,7 +11,7 @@ export const authService = {
                     'Content-Type': 'application/json'
                 }
             })
-            return response.data
+            return response
         }
         catch(error){
             throw error
@@ -26,7 +26,7 @@ export const authService = {
                     'Content-Type': 'application/json'
                 }
             })
-            return response.data
+            return response
         }
         catch(error){
             throw error
@@ -45,7 +45,7 @@ export const authService = {
                     'Content-Type': 'Application/json'
                 }
             })
-            return response.data
+            return response
         }
         catch(error){
             throw error

@@ -6,6 +6,8 @@ import Tracker from './components/Tracker'
 import Shop from './components/Shop'
 import Levels from './components/Levels'
 import Profile from './components/Profile'
+import Login from './components/auth/Login'
+import Register from './components/auth/Register'
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
   {
     path: '/profile',
     element: <Profile />
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/register',
+    element: <Register />
   },
   {
     path: '*',
