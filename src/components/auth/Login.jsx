@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import {authService} from '../../services/authService'
 import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 export default function Login(){
     const initialValues = {email: '', password: ''}
@@ -43,30 +44,40 @@ export default function Login(){
         setIsSubmit(true)
     }
 
-    function validate(values){
-        const errors = {}
-        const {email, password} = values
-        if(!email){
-            errors.email = 'Введіть email!'
+    function validate(values) {
+        const errors = {};
+        const { email, password } = values;
+    
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+        if (!email) {
+            errors.email = 'Введіть email!';
+        } else if (!emailRegex.test(email)) {
+            errors.email = 'Некоректний формат email!';
         }
-        if(!password){
-            errors.password = 'Введіть пароль!'
+    
+        if (!password) {
+            errors.password = 'Введіть пароль!';
+        } else if (password.length < 6) {
+            errors.password = 'Пароль має бути не менше 6 символів!';
         }
-        return errors
+    
+        return errors;
     }
+    
 
     return(
         <div>
            <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="email">Enter email:</label>
+                    <label htmlFor="email">Введіть email:</label>
                     <input type="email" value={userData.email} id="email" name="email"
                             onChange={handleChange} placeholder="Ваша електронна пошта"
                     />
                     {formErrors.email && <div>{formErrors.email}</div>}
                 </div>
                 <div>
-                    <label htmlFor="password">Enter password:</label>
+                    <label htmlFor="password">Введіть пароль:</label>
                     <input type="password" value={userData.password} id="password" name="password"
                             onChange={handleChange} placeholder="Ваш пароль"
                     />
@@ -75,6 +86,10 @@ export default function Login(){
                 {authError && <div>{authError}</div>}
                 <button type="submit">Підтвердити</button>
            </form>
+           <div>
+                Не маєте аккаунту?
+                <Link to='/register'>Зареєструватись</Link>
+           </div>
         </div>
     )
 }

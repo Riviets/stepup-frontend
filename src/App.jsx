@@ -8,31 +8,56 @@ import Levels from './components/Levels'
 import Profile from './components/Profile'
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Habits />
+    element: (
+      <ProtectedRoute>
+        <Habits />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/habits',
-    element: <Habits />
+    element: (
+      <ProtectedRoute>
+        <Habits />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/tracker',
-    element: <Tracker />
+    element: (
+      <ProtectedRoute>
+        <Tracker />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/shop',
-    element: <Shop />
+    element: (
+      <ProtectedRoute>
+        <Shop />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/levels',
-    element: <Levels />
+    element: (
+      <ProtectedRoute>
+        <Levels />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/profile',
-    element: <Profile />
+    element: (
+      <ProtectedRoute>
+        <Profile />
+      </ProtectedRoute>
+    )
   },
   {
     path: '/login',
@@ -49,10 +74,9 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-
   return (
     <>
-     <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </>
   )
 }
