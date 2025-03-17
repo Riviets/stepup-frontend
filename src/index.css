@@ -1,1 +1,32 @@
 @import "tailwindcss";
+
+body{
+    background-image: url('./assets/bg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.container{
+    max-width: 270px;
+    margin: 0 auto;
+    padding:0 5px;
+}
+
+.input{
+    border: 1px solid #cccccc;
+    padding: 2px 8px;
+    border-radius: 5px;
+}
+
+.btn{
+    @apply border-2  py-1 px-3 font-bold text-lg rounded-lg cursor-pointer text-white
+}
+
+.pfp{
+    max-width: 100px;
+}
+
+.nav-item{
+    @apply bg-gray-200 w-[52px] pt-[10px] min-w-[65px] min-h-[75px] rounded-md
+}

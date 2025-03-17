@@ -16,12 +16,12 @@ export default function Register() {
       if (isSubmit && Object.keys(formErrors).length === 0) {
         try {
           const response = await authService.registerUser(userData);
-          const {token} = response.data
-          localStorage.setItem('accessToken', token)
-          navigate('/profile'); 
+          const { token } = response.data;
+          localStorage.setItem('accessToken', token);
+          navigate('/profile');
         } catch (err) {
           console.error("Помилка:", err.message);
-          setAuthError(err.message); 
+          setAuthError(err.message);
           setIsSubmit(false);
         }
       }
@@ -68,49 +68,32 @@ export default function Register() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Введіть ім'я користувача:</label>
-          <input
-            type="text"
-            value={userData.username}
-            id="username"
-            name="username"
-            onChange={handleChange}
-            placeholder="Ваше ім'я"
-          />
-          {formErrors.username && <div>{formErrors.username}</div>}
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center bg-white py-8 px-10 rounded-lg shadow-lg my-2">
+        <p className="text-center mb-5 text-2xl font-bold">Register</p>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-72">
+          <div className="flex flex-col gap-2">
+            <label className="font-medium text-md" htmlFor="username">Введіть ім'я користувача:</label>
+            <input className="input" type="text" value={userData.username} id="username" name="username" onChange={handleChange} placeholder="Ваше ім'я" />
+            {formErrors.username && <div className="text-red-500">{formErrors.username}</div>}
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-medium text-md" htmlFor="email">Введіть email:</label>
+            <input className="input" type="email" value={userData.email} id="email" name="email" onChange={handleChange} placeholder="Ваша електронна пошта" />
+            {formErrors.email && <div className="text-red-500">{formErrors.email}</div>}
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-medium text-md" htmlFor="password">Введіть пароль:</label>
+            <input className="input" type="password" value={userData.password} id="password" name="password" onChange={handleChange} placeholder="Ваш пароль" />
+            {formErrors.password && <div className="text-red-500">{formErrors.password}</div>}
+          </div>
+          {authError && <div className="text-red-500">{authError}</div>}
+          <button type="submit" className="btn mb-5 mt-4 bg-purple-600 hover:bg-purple-700 transition duration-300 border-purple-800">Зареєструватися</button>
+        </form>
+        <div className="flex flex-col items-center text-gray-500">
+          Вже зареєстровані?
+          <Link to="/login" className="text-purple-600 font-medium">Увійти</Link>
         </div>
-        <div>
-          <label htmlFor="email">Введіть email:</label>
-          <input
-            type="email"
-            value={userData.email}
-            id="email"
-            name="email"
-            onChange={handleChange}
-            placeholder="Ваша електронна пошта"
-          />
-          {formErrors.email && <div>{formErrors.email}</div>}
-        </div>
-        <div>
-          <label htmlFor="password">Введіть пароль:</label>
-          <input
-            type="password"
-            value={userData.password}
-            id="password"
-            name="password"
-            onChange={handleChange}
-            placeholder="Ваш пароль"
-          />
-          {formErrors.password && <div>{formErrors.password}</div>}
-        </div>
-        {authError && <div style={{ color: 'red' }}>{authError}</div>}
-        <button type="submit">Зареєструватися</button>
-      </form>
-      <div>
-        Вже зареєстровані? <Link to="/login">Увійти</Link>
       </div>
     </div>
   );

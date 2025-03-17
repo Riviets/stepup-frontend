@@ -60,10 +60,7 @@ export const authService = {
       });
       return response;
     } catch (error) {
-      if (error.response) {
-        throw new Error(error.response.data.message || 'Помилка отримання даних');
-      }
-      throw new Error('Не вдалося підключитися до сервера');
+      throw error
     }
   },
 };
