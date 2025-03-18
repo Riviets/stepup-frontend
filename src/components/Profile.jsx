@@ -8,12 +8,17 @@ import card from '../assets/card.png'
 import puzzle from '../assets/puzzle.png'
 import puzzleSet from '../assets/puzzle-set.png'
 import { shopService } from "../services/shopService"
+import { levelsService } from "../services/levelsService"
+import Spinner from "./Spinner"
+import { useNavigate } from "react-router-dom"
 
 export default function Profile(){
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [userData, setUserData] = useState({})
     const [userCars, setUserCars] = useState([])
+    const [userPuzzles, setUserPuzzles] = useState([])
+    const navigate = useNavigate()
 
     useEffect(()=>{
         async function getCurrentUser(){
@@ -37,7 +42,6 @@ export default function Profile(){
             try{
                 setIsLoading(true)
                 const response = await shopService.getUserCards()
-                console.log(response.data)
                 setUserCars(response.data)
             }
             catch(err){
@@ -48,6 +52,23 @@ export default function Profile(){
             }
         }
         getUserCards()
+    }, [])
+
+    useEffect(()=>{
+        async function getUserPuzzles(){
+            try{
+                setIsLoading(true)
+                const response = await levelsService.getUserPuzzles()
+                setUserPuzzles(response.data)
+            }
+            catch(err){
+                setError(err)
+            }
+            finally{
+                setIsLoading(false)
+            }
+        }
+        getUserPuzzles()
     }, [])
 
     function getBonusString(bonusType){
@@ -62,7 +83,12 @@ export default function Profile(){
         }
     }
 
-    if(isLoading) return <div>Loading...</div>
+    function handleLogout(){
+        authService.logoutUser()
+        navigate('/login')
+    }
+
+    if(isLoading) return <div className="flex min-h-screen items-center justify-center"><Spinner /></div>
     if(error) return <div>{error.message}</div>
 
     return(
@@ -97,7 +123,7 @@ export default function Profile(){
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                             <img src={puzzle} alt="Puzzles" />
                         </div>
-                        <p>2/16</p>
+                        <p>{userPuzzles.length}/16</p>
                     </li>
                     <li className="flex flex-col items-center gap-2 text-lg font-semibold">
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
@@ -107,16 +133,17 @@ export default function Profile(){
                     </li>
                 </ul>
             </div>
-            <div className="py-[15px] px-[30px] bg-[#D9D9D9] bg-opacity-85 rounded-lg border-3 border-[#292139] min-h-[38vh]">
+            <div className="py-[15px] px-[30px] bg-[#D9D9D9] bg-opacity-85 rounded-lg border-3 border-[#292139] h-[38vh] overflow-scroll mb-10">
                 <p className="text-center font-bold text-2xl mb-5">Your cards:</p>
-                <ul>
+                <ul className="flex flex-col gap-2">
                     {userCars.map((cardData) => (
-                        <li className="flex gap-4 items-center font-semibold">
+                        <li className="flex gap-4 items-center font-semibold" key={cardData.id}>
                             <img src={card} alt="Card" />
                             <p>{cardData.name} (+ {cardData.bonus_value} {getBonusString(cardData.bonus_type)})</p>
                         </li>))}
                 </ul>
             </div>
+            <button onClick={handleLogout} className="btn bg-red-500 border-red-700 hover:bg-red-600">Log out</button>
         </div>
         <Navigation />
       </div>
