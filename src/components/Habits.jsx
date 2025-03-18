@@ -9,50 +9,12 @@ import { useState, useEffect } from "react"
 import arrow from '../assets/arrow-bottom.png'
 
 export default function Habits(){
-    const [defaultHabits, setDefaultHabits] = useState([])
-    const [defaultHabitsLoading, setDefaultHabitsLoading] = useState(false)
-    const [defaultHabitsError, setDefaultHabitsError] = useState(null)
     const [defaultHabitsVisible, setDefaultHabitsVisible] = useState(false)
-    const [userHabits, setUserHabits] = useState([])
-    const [userHabitsLoading, setUserHabitsLoading] = useState(false)
-    const [userHabitsError, setUserHabitsError] = useState(null)
     const [userHabitsVisible, setUserHabitsVisible] = useState(false)
 
-    useEffect(()=>{
-        async function loadDefaultHabits(){
-            try{
-                setDefaultHabitsLoading(true)
-                const response = await habitsService.getDefaultHabits()
-                console.log(response.data)
-                setDefaultHabits(response.data)
-            }
-            catch(error){
-                setDefaultHabitsError(error)
-            }
-            finally{
-                setDefaultHabitsLoading(false)
-            }
-        }
-        loadDefaultHabits()
-    }, [])
+    const {data: defaultHabits, isLoading: defaultHabitsLoading, error: defaultHabitsError} = useFetch(habitsService.getDefaultHabits)
+    const {data: userHabits, isLoading: userHabitsLoading, error: userHabitsError} = useFetch(habitsService.getDefaultHabits)
 
-    useEffect(()=>{
-        async function loadDefaultHabits(){
-            try{
-                setUserHabitsLoading(true)
-                const response = await habitsService.getUserHabits()
-                console.log(response.data)
-                setUserHabits(response.data)
-            }
-            catch(error){
-                setUserHabitsError(error)
-            }
-            finally{
-                setUserHabitsLoading(false)
-            }
-        }
-        loadDefaultHabits()
-    }, [])
 
     if(defaultHabitsLoading || userHabitsLoading) return <div className="flex min-x-screen items-center justify-center"><Spinner /></div>
     if (defaultHabitsError) return <div>{defaultHabitsError.message}</div>
@@ -69,7 +31,7 @@ export default function Habits(){
                 </div>
                 {defaultHabitsVisible &&
                 <ul className="flex flex-col gap-7 px-[25px] pb-[30px] pt-5 border-t-3">
-                    {defaultHabits.map((habit)=>(
+                    {defaultHabits?.map((habit)=>(
                         <li key={habit.id} className="flex items-start gap-6">
                            <div className="habit-btn">
                             <button className="font-bold text-xl">&#x002B;</button>
