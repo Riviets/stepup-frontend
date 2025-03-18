@@ -30,3 +30,10 @@ body{
 .nav-item{
     @apply bg-gray-200 w-[52px] pt-[10px] min-w-[65px] min-h-[75px] rounded-md
 }
+
+.habit-btn{
+    @apply border-2 border-[#483D61] w-[25px] h-[25px] flex items-center justify-center bg-white rounded-sm
+}
+
+.stats{
+    @apply bg-[#FFFAA3] flex gap-1 rounded-lg px-[10px] py-[3px] items-center justify-center font-light border-1 border-[#483D61] shadow-lg max-h-[25px]}

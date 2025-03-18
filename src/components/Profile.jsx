@@ -93,7 +93,7 @@ export default function Profile(){
 
     return(
       <div>
-         <div className="pt-[50px] pb-[10px] max-w-[330px] mx-auto">
+         <div className="pt-[50px] pb-[150px] max-w-[330px] mx-auto">
             <div className="flex gap-7 items-start mb-8">
                     <img className="border-3 border-[#292139] rounded-lg min-h-full pfp" src={pfp} alt="User pfp" />
                     <div>
