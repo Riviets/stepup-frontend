@@ -99,7 +99,7 @@ export default function Profile(){
                     <div>
                         <p className="text-2xl text-white font-bold">{userData.username}</p>
                         <p className="text-xl mb-2 text-white font-light">Level {userData.level}</p>
-                        <div className="flex justify-between max-h-[32px] px-[20px] font-black border rounded-xl min-w-[200px] bg-gray-300 text-lg">
+                        <div className="flex justify-between max-h-[32px] px-[20px] font-black border rounded-md min-w-[200px] bg-gray-300 text-lg">
                             <div className="flex items-center gap-2">
                                 <p>{userData.xp}</p>
                                 <img className="min-w-[25px]" src={xp} alt="xp"/>

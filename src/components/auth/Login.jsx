@@ -19,6 +19,9 @@ export default function Login(){
                     console.log(response)
                     const {token} = response                    
                     localStorage.setItem('accessToken', token)
+                    setTimeout(()=>{
+                        localStorage.removeItem('accessToken')
+                    }, 60 * 60 * 1000)
                     navigate('/profile')
                 }
                 catch(err){

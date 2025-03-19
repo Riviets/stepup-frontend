@@ -9,6 +9,7 @@ import Profile from './components/Profile'
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import ProtectedRoute from './components/ProtectedRoute'
+import AddHabit from './components/AddHabit'
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Habits />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/habits/add',
+    element: (
+      <ProtectedRoute>
+        <AddHabit />
       </ProtectedRoute>
     )
   },

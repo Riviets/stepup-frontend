@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
+
 body{
     background-image: url('./assets/bg.png');
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     min-height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
+    color: #3C2F51;
 }
 
 .container{
@@ -37,4 +40,17 @@ body{
 }
 
 .stats{
-    @apply bg-[#FFFAA3] flex gap-1 rounded-lg px-[10px] py-[3px] items-center justify-center font-light border-1 border-[#483D61] shadow-lg max-h-[25px]}
+    @apply bg-[#FFFAA3] flex gap-1 rounded-lg px-[10px] py-[3px] items-center justify-center font-light border-1 border-[#483D61] shadow-lg max-h-[25px]
+}
+
+.slick-slide > div{
+    margin: 0 10px;
+}
+
+.form-item{
+    @apply flex flex-col gap-2
+}
+
+.input{
+    @apply border-[#483D61] border-2 py-1 px-3 bg-white font-semibold
+}

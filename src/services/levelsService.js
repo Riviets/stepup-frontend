@@ -54,7 +54,7 @@ export const levelsService = {
     unlockLevel: async (levelId) =>{
         try{
             const token = localStorage.getItem('accessToken')
-            const response = await axios.post(`${API_URL}/unlock`, levelId, {
+            const response = await axios.post(`${API_URL}/unlock`, {levelId}, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
