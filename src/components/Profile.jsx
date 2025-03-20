@@ -135,13 +135,19 @@ export default function Profile(){
             </div>
             <div className="py-[15px] px-[30px] bg-[#D9D9D9] bg-opacity-85 rounded-lg border-3 border-[#292139] h-[38vh] overflow-scroll mb-10">
                 <p className="text-center font-bold text-2xl mb-5">Your cards:</p>
-                <ul className="flex flex-col gap-2">
+                {userCars.length > 0 ?
+                (
+                    <ul className="flex flex-col gap-2">
                     {userCars.map((cardData) => (
                         <li className="flex gap-4 items-center font-semibold" key={cardData.id}>
                             <img src={card} alt="Card" />
                             <p>{cardData.name} (+ {cardData.bonus_value} {getBonusString(cardData.bonus_type)})</p>
                         </li>))}
                 </ul>
+                )    
+                :
+                <p className="text-xl">So Empty Here...</p>
+            }
             </div>
             <button onClick={handleLogout} className="btn bg-red-500 border-red-700 hover:bg-red-600">Log out</button>
         </div>

@@ -38,7 +38,7 @@ useEffect(() => {
                 setModalMessage(response.data.message)
                 setShowModal(true)
             } else {
-                let successMessage = `Рівень ${levelId} виконано! Отримано ${response.data.reward_currency || 0} монет.`
+                let successMessage = `Rewards for level ${levelId} received!`
                 
                 if(response.data.setCompleted) {
                     successMessage += ` Ви зібрали повний набір "${response.data.setCompleted.name}" і отримали бонус +${response.data.setCompleted.bonus_value} XP за звичку!`

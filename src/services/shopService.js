@@ -37,12 +37,29 @@ export const shopService = {
 
     purchaseCard: async (cardId) => {
         try{
-            const response = await axios.post(`${API_URL}/purchase`, cardId, {
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.post(`${API_URL}/purchase`, {cardId}, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 }
             })
+            return response
+        }
+        catch(error){
+            throw error
+        }
+    },
+    getCardInfoById: async (cardId) => {
+        try{
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.get(`${API_URL}/card/${cardId}`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
+            return response
         }
         catch(error){
             throw error
