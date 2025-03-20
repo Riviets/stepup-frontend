@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
-import Navigation from "./Navigation"
-import { authService } from "../services/authService"
-import xp from '../assets/xp.png'
-import coins from '../assets/coins.png'
-import pfp from '../assets/pfp-default.png'
-import card from '../assets/card.png'
-import puzzle from '../assets/puzzle.png'
-import puzzleSet from '../assets/puzzle-set.png'
-import { shopService } from "../services/shopService"
-import { levelsService } from "../services/levelsService"
-import Spinner from "./Spinner"
+import Navigation from "../layout/Navigation"
+import { authService } from "../../services/authService"
+import xp from '../../assets/xp.png'
+import coins from '../../assets/coins.png'
+import pfp from '../../assets/pfp-default.png'
+import card from '../../assets/card.png'
+import puzzle from '../../assets/puzzle.png'
+import puzzleSet from '../../assets/puzzle-set.png'
+import { shopService } from "../../services/shopService"
+import { levelsService } from "../../services/levelsService"
+import Spinner from "../layout/Spinner"
 import { useNavigate } from "react-router-dom"
 
 export default function Profile(){
@@ -117,7 +117,7 @@ export default function Profile(){
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                             <img src={card} alt="Cards" />
                         </div>
-                        <p>{userCars.length}/5</p>
+                        <p>{userCars.length}/10</p>
                     </li>
                     <li className="flex flex-col items-center gap-2 text-lg font-semibold">
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">

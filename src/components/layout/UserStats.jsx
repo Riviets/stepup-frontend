@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import useFetch from "./hooks/useFetch";
+import useFetch from "../hooks/useFetch";
 import Spinner from "./Spinner";
-import { authService } from "../services/authService";
-import xp from '../assets/xp.png'
-import coins from '../assets/coins.png'
+import { authService } from "../../services/authService";
+import xp from '../../assets/xp.png'
+import coins from '../../assets/coins.png'
 
 export default function UserStats(){
     const {data: userData, isLoading, error} = useFetch(authService.getCurrentUser)

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import habits from '../assets/navigation/habits.png'
-import tracker from '../assets/navigation/tracker.png'
-import shop from '../assets/navigation/shop.png'
-import levels from '../assets/navigation/levels.png'
-import profile from '../assets/navigation/profile.png'
+import habits from '../../assets/navigation/habits.png'
+import tracker from '../../assets/navigation/tracker.png'
+import shop from '../../assets/navigation/shop.png'
+import levels from '../../assets/navigation/levels.png'
+import profile from '../../assets/navigation/profile.png'
 
 
 export default function Navigation(){

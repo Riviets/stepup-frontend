@@ -1,14 +1,14 @@
-import Navigation from "./Navigation"
+import Navigation from "../layout/Navigation"
 import Slider from 'react-slick'
-import UserStats from "./UserStats";
-import useFetch from "./hooks/useFetch";
-import puzzle from '../assets/puzzle.svg'
-import coins from '../assets/coins.svg'
-import { levelsService } from "../services/levelsService";
-import { authService } from "../services/authService"; 
-import Spinner from "./Spinner";
+import UserStats from "../layout/UserStats";
+import useFetch from "../hooks/useFetch";
+import puzzle from '../../assets/puzzle.svg'
+import coins from '../../assets/coins.svg'
+import { levelsService } from "../../services/levelsService";
+import { authService } from "../../services/authService"; 
+import Spinner from "../layout/Spinner";
 import { useState, useEffect, useRef } from "react";
-import MessageModal from "./MessageModal";
+import MessageModal from "../layout/MessageModal";
 
 export default function Levels(){
     const {data: levels, isLoading, error, refetch} = useFetch(levelsService.getAllLevels)

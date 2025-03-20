@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MessageModal from "./MessageModal";
+import MessageModal from "../layout/MessageModal";
 
 export default function AddHabit() {
     const defaultValues = { text: "", xp: "", currency: "" };

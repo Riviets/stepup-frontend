@@ -51,6 +51,9 @@ export default function Register() {
     } else if (username.length < 3) {
       errors.username = "Ім'я має містити мінімум 3 символи!";
     }
+    else if (username.length > 16) {
+      errors.username = "Ім'я має містити максимум 16 символів!";
+    }
 
     if (!email) {
       errors.email = "Введіть email!";

@@ -1,15 +1,14 @@
-import Navigation from "./Navigation"
-import UserStats from "./UserStats"
-import useFetch from "./hooks/useFetch"
-import Spinner from "./Spinner"
-import xp from '../assets/xp.png'
-import coins from '../assets/coins.png'
+import Navigation from "../layout/Navigation"
+import UserStats from "../layout/UserStats"
+import useFetch from "../hooks/useFetch"
+import Spinner from "../layout/Spinner"
+import xp from '../../assets/xp.png'
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import arrow from '../assets/arrow-bottom.png'
-import { habitsService } from "../services/habitsService"
-import { trackerService } from '../services/trackerService'
-import MessageModal from "./MessageModal"
+import arrow from '../../assets/arrow-bottom.png'
+import { habitsService } from "../../services/habitsService"
+import { trackerService } from '../../services/trackerService'
+import MessageModal from "../layout/MessageModal"
 
 export default function Habits() {
     const [defaultHabitsVisible, setDefaultHabitsVisible] = useState(true)

@@ -1,6 +1,6 @@
-import Navigation from "../Navigation"
-import Spinner from "../Spinner"
-import UserStats from "../UserStats"
+import Navigation from "../layout/Navigation"
+import Spinner from "../layout/Spinner"
+import UserStats from "../layout/UserStats"
 import deck from '../../assets/deck.png'
 import useFetch from "../hooks/useFetch"
 import card2 from '../../assets/card-2.svg'
@@ -8,7 +8,7 @@ import { shopService } from "../../services/shopService"
 import CardModal from "./CardModal"
 import coins from '../../assets/coins.svg'
 import { useEffect, useState } from "react"
-import MessageModal from '../MessageModal'
+import MessageModal from '../layout/MessageModal'
 
 export default function Shop(){
 
