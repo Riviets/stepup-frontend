@@ -11,6 +11,8 @@ import { shopService } from "../../services/shopService"
 import { levelsService } from "../../services/levelsService"
 import Spinner from "../layout/Spinner"
 import { useNavigate } from "react-router-dom"
+import useFetch from "../hooks/useFetch"
+import PuzzlesModal from "./PuzzlesModal"
 
 export default function Profile(){
     const [isLoading, setIsLoading] = useState(false)
@@ -18,7 +20,22 @@ export default function Profile(){
     const [userData, setUserData] = useState({})
     const [userCars, setUserCars] = useState([])
     const [userPuzzles, setUserPuzzles] = useState([])
+    const {data: userPuzzleSets} = useFetch(levelsService.getUserSets)
+    const [completedSets, setCompletedSets] = useState(0)
+    const [isPuzzlesModalOpen, setIsPuzzlesModalOpen] = useState(false)
     const navigate = useNavigate()
+
+    useEffect(()=>{
+        if(userPuzzleSets){
+            let completedSets = 0
+            for(let set of userPuzzleSets){
+                if(set.collected === 4){
+                    completedSets+=1
+                }
+            }   
+            setCompletedSets(completedSets)         
+        }
+    }, [userPuzzleSets])
 
     useEffect(()=>{
         async function getCurrentUser(){
@@ -71,6 +88,10 @@ export default function Profile(){
         getUserPuzzles()
     }, [])
 
+    function handleOpenPuzzlesModal(){
+        setIsPuzzlesModalOpen(true)
+    }
+    
     function getBonusString(bonusType){
         if(bonusType === 'xp_per_habit') {
             return 'XP per habit'
@@ -112,7 +133,7 @@ export default function Profile(){
                     </div>
             </div>
             <div className="py-[15px] px-[30px] bg-[#D9D9D9] bg-opacity-85 rounded-lg border-3 border-[#292139] mb-[25px]">
-                <ul className="flex justify-between items-center">
+                <ul onClick={handleOpenPuzzlesModal} className="flex justify-between items-center">
                     <li className="flex flex-col items-center gap-2 text-lg font-semibold">
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                             <img src={card} alt="Cards" />
@@ -129,7 +150,7 @@ export default function Profile(){
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                             <img src={puzzleSet} alt="Puzzle sets" />
                         </div>
-                        <p>0/4</p>
+                        <p>{completedSets}/4</p>
                     </li>
                 </ul>
             </div>
@@ -152,6 +173,7 @@ export default function Profile(){
             <button onClick={handleLogout} className="btn bg-red-500 border-red-700 hover:bg-red-600">Log out</button>
         </div>
         <Navigation />
+        {isPuzzlesModalOpen && <PuzzlesModal onClose={()=>{setIsPuzzlesModalOpen(false)}} />}
       </div>
     )
 }

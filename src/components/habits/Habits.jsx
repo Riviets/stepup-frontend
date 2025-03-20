@@ -26,10 +26,9 @@ export default function Habits() {
             setLoading(true)
             setIsMessageModalOpen(true)
             const response = await trackerService.addHabitToTracker(habitId)
-            console.log(response);
             setMessage('Habit was added to the tracker!')
         } catch (error) {
-            console.log(error)
+            setMessage('Habit is already in the tracker!')
         } finally {
             setLoading(false)
         }
