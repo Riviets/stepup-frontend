@@ -12,8 +12,8 @@ import MessageModal from '../layout/MessageModal'
 
 export default function Shop(){
 
-    const {data: cardsData, isLoading, error, refetch} = useFetch(shopService.getCards)
-    const {data: userCards, isLoading: isUserCardsLoadind, error: userCardsError} = useFetch(shopService.getUserCards)
+    const {data: cardsData, isLoading, error} = useFetch(shopService.getCards)
+    const {data: userCards} = useFetch(shopService.getUserCards)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isMessageModalOpen, setIsMessageModalOpen] = useState(false)
     const [message, setMessage] = useState('')
@@ -60,7 +60,9 @@ export default function Shop(){
     }
 
     if(isLoading) return (<div className="flex justify-center items-center min-h-screen"><Spinner /></div>)
-    if(error) return (<div className="flex justify-center items-center min-h-screen text-red-500">Error: {error.message}</div>)
+    if(error) {
+        
+        return (<div className="flex justify-center items-center min-h-screen"></div>)}
     
     return(
         <div className="pt-[50px] pb-[150px]">

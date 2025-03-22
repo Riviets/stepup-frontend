@@ -45,7 +45,8 @@ export default function Habits() {
             refetchUserHabits()
         }
         catch(error){
-            setMessage(error.response?.data?.message)
+            setMessage(error.response?.data?.message)            
+            setIsMessageModalOpen(true)
         }
     }
 

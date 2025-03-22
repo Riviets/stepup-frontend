@@ -14,12 +14,36 @@ export default function Tracker() {
     const { data: habitsInTracker, refetch: refetchHabitsInTracker } = useFetch(trackerService.getHabitsInTracker);
     const [message, setMessage] = useState('');
     const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+    const [daiyCompletiosIds, setDailyCompletionsIds] = useState([])
     const refetchUserData = useRef(null);
 
     function formatDate(num) {
         if (num < 10) return `0${num}`;
         return num;
     }
+
+    function formFormatedDateString(){
+        return`${formatDate(date.getFullYear())}-${formatDate(date.getMonth() + 1)}-${formatDate(date.getDate())}`;
+    }
+
+    async function getDailyCompletions(){
+        try{
+            const formatedDate = formFormatedDateString()
+            const response = await trackerService.getDailyCompletions(formatedDate)
+            console.log(response.data);
+            const completions = response.data
+            const completionsIds = completions.map((habit)=>habit.id)
+            setDailyCompletionsIds(completionsIds)
+        }
+        catch(error){
+            setMessage(error.response?.data?.message);
+            setIsMessageModalOpen(true);
+        }
+    }
+
+    useEffect(()=>{
+        getDailyCompletions()
+    }, [])
 
     useEffect(() => {
         const day = date.getDate();
@@ -30,7 +54,7 @@ export default function Tracker() {
 
     async function handleCollectBonus() {
         try {
-            const formatedDate = `${formatDate(date.getFullYear())}-${formatDate(date.getMonth() + 1)}-${formatDate(date.getDate())}`;
+            const formatedDate = formFormatedDateString()
             console.log(formatedDate);
             const response = await trackerService.claimBonus(formatedDate);
             setMessage('Bonus received!');
@@ -49,21 +73,22 @@ export default function Tracker() {
             setIsMessageModalOpen(true);
             refetchHabitsInTracker();
         } catch (error) {
-            console.log(error);
+            setMessage(error.response?.data?.message);
+            setIsMessageModalOpen(true);
         }
     }
 
     async function handleComplete(habitId) {
-        const formatedDate = `${formatDate(date.getFullYear())}-${formatDate(date.getMonth() + 1)}-${formatDate(date.getDate())}`;
+        const formatedDate = formFormatedDateString()
         try {
             const response = await trackerService.completeHabit(habitId, formatedDate);
             setMessage('Habit completed');
             setIsMessageModalOpen(true);
             refetchHabitsInTracker();
+            getDailyCompletions()
             if (refetchUserData.current) refetchUserData.current();
         } catch (error) {
-            console.log(error);
-            setMessage('Habit has already been completed');
+            setMessage(error.response?.data?.message);
             setIsMessageModalOpen(true);
         }
     }
@@ -89,7 +114,9 @@ export default function Tracker() {
                                 {habitsInTracker?.map((habit) => (
                                     <li
                                         key={habit.id}
-                                        className="flex items-center bg-white border border-[#563897] rounded-lg pl-[15px] pr-[25px] py-3"
+                                        className={`flex items-center border border-[#563897] rounded-lg pl-[15px] pr-[25px] py-3
+                                            ${daiyCompletiosIds.includes(habit.id) ? 'bg-gray-400' : 'bg-white'}
+                                            `}
                                     >
                                         <div className="stats mr-[15px]">
                                             <p className="text-sm">+{habit.xp}</p>
