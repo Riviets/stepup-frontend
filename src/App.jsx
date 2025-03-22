@@ -10,6 +10,7 @@ import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import ProtectedRoute from './components/utils/ProtectedRoute'
 import AddHabit from './components/habits/AddHabit'
+import EditHabit from './components/habits/EditHabit'
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <AddHabit />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/habits/edit/:id',
+    element: (
+      <ProtectedRoute>
+        <EditHabit />
       </ProtectedRoute>
     )
   },

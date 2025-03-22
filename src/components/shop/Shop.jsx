@@ -21,7 +21,6 @@ export default function Shop(){
     const [userCardsIndexes, setUserCardsIndexes] = useState([])
 
     useEffect(()=>{
-        console.log(userCards);
         if(userCards){
             const userCardsIndexes = userCards.map((card)=> card.id)
             setUserCardsIndexes(userCardsIndexes)

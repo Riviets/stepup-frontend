@@ -22,7 +22,7 @@ export default function PuzzlesModal({ onClose }) {
       squares.push(
         <div
           key={i}
-          className={`w-[35px] h-[35px] rounded-sm
+          className={`w-[45px] h-[45px] rounded-sm
             ${ i < collected ? "bg-green-400" : "bg-gray-300"}
             border-2`}> 
             <img src={puzzle} alt="Puzzle" className="" />
@@ -40,25 +40,26 @@ export default function PuzzlesModal({ onClose }) {
     >
       <div className="bg-[#D9D9D9] px-[25px] pt-[30px] pb-[50px] border-2 border-[#292139] rounded-lg relative w-[100%] max-w-[370px]">
         <p className="text-center text-3xl font-bold mb-[35px]">Puzzles</p>
-        <ul className="flex flex-col gap-4 max-h-[470px] overflow-scroll p-2 border border-[#292139] rounded-md">
+        <ul className="flex flex-col gap-4 max-h-[470px] overflow-scroll px-2 py-3 border border-[#292139] rounded-md bg-yellow-100">
           {puzzleSetsData?.map((set) => (
             <li
               key={set.set_id}
-              className="bg-white p-[20px] border-2 border-[#292139] rounded-md shadow-xl"
+              className="flex flex-col gap-4 bg-white p-[20px] border-2 border-[#292139] rounded-md shadow-xl"
             >
-              <div className="flex gap-6 mb-[30px]">
+              <div className="flex gap-6 mb-[10px]">
                 <img
                   src={puzzleSet}
                   alt="Set"
                   className="w-[100%] max-w-[50px]"
                 />
                 <div className="flex flex-col">
-                  <p className="text-xl font-bold mb-2">Puzzle {set.set_name}</p>
-                  <div className="flex gap-2">
-                    {renderSquares(set.collected)}
-                  </div>
+                  <p className="text-xl font-bold">Puzzle {set.set_name}</p>
+                  <p>{set.collected}/4</p>
                 </div>
               </div>
+                <div className="flex justify-between gap-2">
+                    {renderSquares(set.collected)}
+                  </div>
               <p className="tracking-wider text-lg">+{set.bonus_value}% to the earned xp</p>
             </li>
           ))}

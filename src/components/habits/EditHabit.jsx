@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MessageModal from "../layout/MessageModal"
 import {habitsService} from "../../services/habitsService"
+import { useParams } from "react-router-dom";
 
-export default function AddHabit() {
+export default function EditHabit() {
     const defaultValues = { text: "", xp: "", currency: "" };
     const [habitValues, setHabitValues] = useState(defaultValues);
     const [formErrors, setFormErrors] = useState({});
@@ -12,15 +13,16 @@ export default function AddHabit() {
     const [error, setError] = useState(null)
     const [message, setMessage] = useState('')
     const navigate = useNavigate();
+    const params = useParams()
 
     useEffect(() => {
-        async function addHabit(){
+        async function editHabit(){
             if (isSubmit && Object.keys(formErrors).length === 0) {
-                try{
-                    const response = await habitsService.createUserHabit(habitValues)
+                try{                    
+                    const response = await habitsService.editUserHabit(params.id, habitValues)                    
                     setHabitValues(defaultValues);
                     setIsSubmit(false);
-                    setMessage('Habbit added!')
+                    setMessage('Habbit edited succesfully!')
                     setIsModalOpen(true)
                 }
                 catch(error){                    
@@ -28,8 +30,26 @@ export default function AddHabit() {
                 }
             }
         }
-        addHabit()
+        editHabit()
     }, [isSubmit, formErrors]);
+
+    useEffect(()=>{        
+       async function getHabitInfo(){
+            try{
+              if(params){
+                const response = await habitsService.getHabitInfoById(params.id)
+                const habitData = response.data
+                const {name: text, xp, currency} = habitData
+                setHabitValues({text, xp, currency})
+              }
+            }
+            catch(error){
+                console.log(error);
+            }
+       }
+       getHabitInfo()
+    }, [params])
+
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -86,7 +106,7 @@ export default function AddHabit() {
                 Go Back
             </button>
             <div className="bg-[#D9D9D9] w-[100%] max-w-[330px] border-2 border-[#483D61] rounded-lg py-10 px-8">
-                <p className="text-center text-2xl font-black mb-5">Add Habit</p>
+                <p className="text-center text-2xl font-black mb-5">Edit Habit</p>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                     <div className="form-item">
                         <label className="text-lg font-semibold" htmlFor="text">Habit Text:</label>

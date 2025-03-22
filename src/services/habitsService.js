@@ -44,8 +44,9 @@ export const habitsService = {
     },
     createUserHabit: async (habitData) =>{
         try{
+            const {text: name, xp, currency} = habitData
             const token = localStorage.getItem('accessToken')
-            const response = await axios.post(`${API_URL}`, habitData, {
+            const response = await axios.post(`${API_URL}`, {name, xp, currency}, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json', 
@@ -59,8 +60,9 @@ export const habitsService = {
     },
     editUserHabit: async (habitId, habitData) =>{
         try{
+            const {text: name, xp, currency} = habitData
             const token = localStorage.getItem('accessToken')
-            const response = await axios.put(`${API_URL}/${habitId}`, habitData, {
+            const response = await axios.put(`${API_URL}/${habitId}`, {name, xp, currency}, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json', 
@@ -87,5 +89,21 @@ export const habitsService = {
             throw error
         }
     },
+
+    getHabitInfoById: async (habitId) => {
+        try{
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.get(`${API_URL}/${habitId}`,{
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json', 
+                }
+            })
+            return response
+        }
+        catch(error){
+            throw error
+        }
+    }
 
 }

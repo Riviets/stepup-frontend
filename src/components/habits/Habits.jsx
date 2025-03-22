@@ -9,6 +9,7 @@ import arrow from '../../assets/arrow-bottom.png'
 import { habitsService } from "../../services/habitsService"
 import { trackerService } from '../../services/trackerService'
 import MessageModal from "../layout/MessageModal"
+import ConfirmModal from "../layout/ConfirmModal"
 
 export default function Habits() {
     const [defaultHabitsVisible, setDefaultHabitsVisible] = useState(true)
@@ -16,10 +17,12 @@ export default function Habits() {
     const [isMessageModalOpen, setIsMessageModalOpen] = useState(false)
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
+    const [selectedHabitId, setSelectedHabitId] = useState(0)
     const navigate = useNavigate()
 
     const { data: defaultHabits, isLoading: defaultHabitsLoading, error: defaultHabitsError } = useFetch(habitsService.getDefaultHabits)
-    const { data: userHabits, isLoading: userHabitsLoading, error: userHabitsError } = useFetch(habitsService.getUserHabits)
+    const { data: userHabits, isLoading: userHabitsLoading, error: userHabitsError, refetch: refetchUserHabits } = useFetch(habitsService.getUserHabits)
 
     async function addHabitToTracker(habitId) {
         try {
@@ -28,9 +31,21 @@ export default function Habits() {
             const response = await trackerService.addHabitToTracker(habitId)
             setMessage('Habit was added to the tracker!')
         } catch (error) {
-            setMessage('Habit is already in the tracker!')
+            setMessage(error.response?.data?.message)
+            setIsMessageModalOpen(true)
         } finally {
             setLoading(false)
+        }
+    }
+
+    async function handleDelete(){
+        try{
+            const response = await habitsService.deleteUserHabit(selectedHabitId)
+            setIsConfirmModalOpen(false)
+            refetchUserHabits()
+        }
+        catch(error){
+            setMessage(error.response?.data?.message)
         }
     }
 
@@ -89,7 +104,7 @@ export default function Habits() {
                             userHabits.map((habit) => (
                                 <li key={habit.id} className="flex items-start gap-6">
                                     <div className="habit-btn">
-                                        <button className="font-bold text-xl">+</button>
+                                        <button onClick={() => { addHabitToTracker(habit.id) }} className="font-bold text-xl">+</button>
                                     </div>
                                     <div className="flex flex-col gap-2 mr-auto">
                                         <p className="text-lg font-medium">{habit.name}</p>
@@ -100,10 +115,10 @@ export default function Habits() {
                                         </div>
                                     </div>
                                     <div className="flex gap-2">
-                                        <div className="habit-btn">
+                                        <div onClick={()=>{setSelectedHabitId(habit.id); navigate(`/habits/edit/${habit.id}`)}} className="habit-btn">
                                             <button>✎</button>
                                         </div>
-                                        <div className="habit-btn">
+                                        <div onClick={()=>{setSelectedHabitId(habit.id); setIsConfirmModalOpen(true)}} className="habit-btn">
                                             <button>🗑</button>
                                         </div>
                                     </div>
@@ -115,6 +130,7 @@ export default function Habits() {
             </div>
             <Navigation />
             {isMessageModalOpen && <MessageModal message={message} onClose={() => { setIsMessageModalOpen(false) }} />}
+            {isConfirmModalOpen && <ConfirmModal message={'permanently delete this habit'} onClose={()=>{setIsConfirmModalOpen(false)}} onConfirm={handleDelete}/>}
         </div>
     )
 }
