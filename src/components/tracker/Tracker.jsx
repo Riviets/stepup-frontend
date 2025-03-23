@@ -7,13 +7,15 @@ import xp from '../../assets/xp.svg';
 import tick from '../../assets/tick.svg';
 import { trackerService } from '../../services/trackerService';
 import MessageModal from '../layout/MessageModal';
+import Analytics from "./Analythics";
 
 export default function Tracker() {
     const date = new Date();
     const [formatedDate, setFormatedDate] = useState('');
-    const { data: habitsInTracker, refetch: refetchHabitsInTracker } = useFetch(trackerService.getHabitsInTracker);
-    const [message, setMessage] = useState('');
-    const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
+    const { data: habitsInTracker, loading, refetch: refetchHabitsInTracker } = useFetch(trackerService.getHabitsInTracker);
+    const [message, setMessage] = useState('')
+    const [isMessageModalOpen, setIsMessageModalOpen] = useState(false)
+    const [isAnalythicsVisible, setIsAnalythicsVisible] = useState(false)
     const [daiyCompletiosIds, setDailyCompletionsIds] = useState([])
     const refetchUserData = useRef(null);
 
@@ -103,15 +105,17 @@ export default function Tracker() {
                 <div className="py-[35px] px-[20px]">
                     <div className="flex justify-between items-center mb-[30px] mx-auto max-w-[270px]">
                         <p className="text-2xl font-black">Daily tracker</p>
-                        <button className="flex items-center gap-1 bg-yellow-100 px-2 py-1 border-1 rounded-full max-h-[25px] -mr-3">
+                        <button onClick={()=>{setIsAnalythicsVisible(true)}} to='/tracker/analythics' className="flex items-center gap-1 bg-yellow-100 px-2 py-1 border-1 rounded-full max-h-[25px] -mr-3">
                             <img src={analythics} alt="Graph" className="min-w-[10px]" />
                             <p className="text-sm">Analytics</p>
                         </button>
                     </div>
                     <div className="max-h-[290px] overflow-scroll px-2">
-                        {habitsInTracker ? (
+                        {loading ? (
+                            <p>Loading ...</p>
+                        ) : habitsInTracker && habitsInTracker.length > 0 ? (
                             <ul className="flex flex-col gap-5">
-                                {habitsInTracker?.map((habit) => (
+                                {habitsInTracker.map((habit) => (
                                     <li
                                         key={habit.id}
                                         className={`flex items-center border border-[#563897] rounded-lg pl-[15px] pr-[25px] py-3
@@ -141,7 +145,7 @@ export default function Tracker() {
                                 ))}
                             </ul>
                         ) : (
-                            <p>Loading ...</p>
+                            <p className="text-center text-lg font-medium py-10">So Empty Here...</p>
                         )}
                     </div>
                     <div className="flex items-center justify-center">
@@ -156,6 +160,7 @@ export default function Tracker() {
             </div>
             <Navigation />
             {isMessageModalOpen && <MessageModal message={message} onClose={() => setIsMessageModalOpen(false)} />}
+            {isAnalythicsVisible && <Analytics onClose={()=>{setIsAnalythicsVisible(false)}}/>}
         </div>
     );
 }
