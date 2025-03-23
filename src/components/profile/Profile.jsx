@@ -13,6 +13,7 @@ import Spinner from "../layout/Spinner"
 import { useNavigate } from "react-router-dom"
 import useFetch from "../hooks/useFetch"
 import PuzzlesModal from "./PuzzlesModal"
+import StatsModal from "./StatsModal"
 
 export default function Profile(){
     const [isLoading, setIsLoading] = useState(false)
@@ -23,6 +24,7 @@ export default function Profile(){
     const {data: userPuzzleSets} = useFetch(levelsService.getUserSets)
     const [completedSets, setCompletedSets] = useState(0)
     const [isPuzzlesModalOpen, setIsPuzzlesModalOpen] = useState(false)
+    const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -170,10 +172,14 @@ export default function Profile(){
                 <p className="text-xl">So Empty Here...</p>
             }
             </div>
+           <div className="flex gap-8">
             <button onClick={handleLogout} className="btn bg-red-500 border-red-700 hover:bg-red-600">Log out</button>
+            <button onClick={()=>{setIsStatsModalOpen(true)}} className="btn bg-blue-500 border-blue-700 hover:bg-blue-600">Stats</button>
+           </div>
         </div>
         <Navigation />
         {isPuzzlesModalOpen && <PuzzlesModal onClose={()=>{setIsPuzzlesModalOpen(false)}} />}
+        {isStatsModalOpen && <StatsModal onClose={()=>{setIsStatsModalOpen(false)}}/>}
       </div>
     )
 }
