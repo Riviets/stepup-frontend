@@ -12,15 +12,15 @@ export default function StatsModal({onClose}){
                 <ul className="flex flex-col gap-4">
                     <li className="flex gap-3 justify-between font-bold text-lg items-center">
                         <p>Bonus currency per habit</p>
-                        <p className="px-2 border-2 rounded-lg">{userData?.bonus_currency_per_habit}</p>
+                        <p className="px-2 border-2 rounded-lg bg-yellow-100">{userData?.bonus_currency_per_habit}</p>
                     </li>
                     <li className="flex gap-3 justify-between font-bold text-lg items-center">
                         <p>Bonus xp per day</p>
-                        <p className="px-2 border-2 rounded-lg">{userData?.bonus_xp_per_day}</p>
+                        <p className="px-2 border-2 rounded-lg bg-yellow-100">{userData?.bonus_xp_per_day}</p>
                     </li>
                     <li className="flex gap-3 justify-between font-bold text-lg items-center">
                         <p>Bonus xp per habit</p>
-                        <p className="px-2 border-2 rounded-lg">{userData?.bonus_xp_per_habit}</p>
+                        <p className="px-2 border-2 rounded-lg bg-yellow-100">{userData?.bonus_xp_per_habit}</p>
                     </li>
                 </ul>
                 <button onClick={onClose} className="absolute top-5 right-7">

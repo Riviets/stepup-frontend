@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import Navigation from "../layout/Navigation"
 import { authService } from "../../services/authService"
 import xp from '../../assets/xp.png'
-import coins from '../../assets/coins.png'
+import coins from '../../assets/coins.svg'
 import pfp from '../../assets/pfp-default.png'
 import card from '../../assets/card.png'
 import puzzle from '../../assets/puzzle.png'
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom"
 import useFetch from "../hooks/useFetch"
 import PuzzlesModal from "./PuzzlesModal"
 import StatsModal from "./StatsModal"
+import EditModal from "./EditModal"
 
 export default function Profile(){
     const [isLoading, setIsLoading] = useState(false)
@@ -25,6 +26,7 @@ export default function Profile(){
     const [completedSets, setCompletedSets] = useState(0)
     const [isPuzzlesModalOpen, setIsPuzzlesModalOpen] = useState(false)
     const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -120,7 +122,12 @@ export default function Profile(){
             <div className="flex gap-7 items-start mb-8">
                     <img className="border-3 border-[#292139] rounded-lg min-h-full pfp" src={pfp} alt="User pfp" />
                     <div>
-                        <p className="text-2xl text-white font-bold">{userData.username}</p>
+                        <div className="flex gap-3 items-center">
+                            <p className="text-2xl text-white font-bold">{userData.username}</p>
+                            <div onClick={()=>{setIsEditModalOpen(true)}}  className="flex items-center justify-center bg-[#D9D9D9] border-2 box-border border-[#292139] rounded-sm w-[30px] h-[30px]">
+                                <button className="text-xl font-semibold -mb-[3px]">✎</button>
+                            </div>
+                        </div>
                         <p className="text-xl mb-2 text-white font-light">Level {userData.level}</p>
                         <div className="flex justify-between max-h-[32px] px-[20px] font-black border rounded-md min-w-[200px] bg-gray-300 text-lg">
                             <div className="flex items-center gap-2">
@@ -129,7 +136,7 @@ export default function Profile(){
                             </div>
                            <div className="flex items-center">
                                 <p>{userData.currency}</p>
-                                <img className="min-w-[40px]" src={coins} alt="coins" />
+                                <img className="w-full max-w-[30px]" src={coins} alt="coins" />
                            </div>
                         </div>
                     </div>
@@ -180,6 +187,7 @@ export default function Profile(){
         <Navigation />
         {isPuzzlesModalOpen && <PuzzlesModal onClose={()=>{setIsPuzzlesModalOpen(false)}} />}
         {isStatsModalOpen && <StatsModal onClose={()=>{setIsStatsModalOpen(false)}}/>}
+        {isEditModalOpen && <EditModal onClose={()=>{setIsEditModalOpen(false)}}/>}
       </div>
     )
 }
