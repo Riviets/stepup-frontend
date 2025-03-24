@@ -15,6 +15,7 @@ import useFetch from "../hooks/useFetch"
 import PuzzlesModal from "./PuzzlesModal"
 import StatsModal from "./StatsModal"
 import EditModal from "./EditModal"
+import ConfirmModal from "../layout/ConfirmModal"
 
 export default function Profile(){
     const [isLoading, setIsLoading] = useState(false)
@@ -27,6 +28,7 @@ export default function Profile(){
     const [isPuzzlesModalOpen, setIsPuzzlesModalOpen] = useState(false)
     const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -163,7 +165,7 @@ export default function Profile(){
                     </li>
                 </ul>
             </div>
-            <div className="py-[15px] px-[30px] bg-[#D9D9D9] bg-opacity-85 rounded-lg border-3 border-[#292139] h-[38vh] overflow-scroll mb-10">
+            <div className="py-[15px] px-[30px] bg-[#D9D9D9] bg-opacity-85 rounded-lg border-3 border-[#292139] h-[38vh] overflow-scroll mb-15">
                 <p className="text-center font-bold text-2xl mb-5">Your cards:</p>
                 {userCars.length > 0 ?
                 (
@@ -180,7 +182,7 @@ export default function Profile(){
             }
             </div>
            <div className="flex gap-8">
-            <button onClick={handleLogout} className="btn bg-red-500 border-red-700 hover:bg-red-600">Log out</button>
+            <button onClick={()=>{setIsConfirmModalOpen(true)}} className="btn bg-red-500 border-red-700 hover:bg-red-600">Log out</button>
             <button onClick={()=>{setIsStatsModalOpen(true)}} className="btn bg-blue-500 border-blue-700 hover:bg-blue-600">Stats</button>
            </div>
         </div>
@@ -188,6 +190,7 @@ export default function Profile(){
         {isPuzzlesModalOpen && <PuzzlesModal onClose={()=>{setIsPuzzlesModalOpen(false)}} />}
         {isStatsModalOpen && <StatsModal onClose={()=>{setIsStatsModalOpen(false)}}/>}
         {isEditModalOpen && <EditModal onClose={()=>{setIsEditModalOpen(false)}}/>}
+        {isConfirmModalOpen && <ConfirmModal onClose={()=>{setIsConfirmModalOpen(false)}} message={'logout'} onConfirm={handleLogout}/>}
       </div>
     )
 }

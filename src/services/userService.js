@@ -32,5 +32,19 @@ export const userService = {
         catch(error){
             throw error
         }
+    },
+    editUsername: async (data) => {
+        try{
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.put(`${API_URL}/username`, {username},{
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            })
+        }
+        catch(error){
+            throw error
+        }
     }
 }

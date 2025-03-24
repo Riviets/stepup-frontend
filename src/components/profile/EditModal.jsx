@@ -7,11 +7,13 @@ import { userService } from "../../services/userService";
 export default function EditModal({onClose}){
 
     const {data: userData} = useFetch(authService.getCurrentUser)
-    const [usernameText, setUsernameText] = useState('')
+    const [usernameText, setUsernameText] = useState('Loading...')
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(()=>{
-        setUsernameText(userData?.username)
+        if(userData?.username){
+            setUsernameText(userData.username)
+        }
     }, [userData])
 
     async function onConfirm(){
