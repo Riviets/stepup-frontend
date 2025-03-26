@@ -14,7 +14,7 @@ import { CARDS_NUMBER } from "../../lib/constants"
 export default function Shop(){
 
     const {data: cardsData, isLoading, error} = useFetch(shopService.getCards)
-    const {data: userCards} = useFetch(shopService.getUserCards)
+    const {data: userCards, refetch: refethUserCards} = useFetch(shopService.getUserCards)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isMessageModalOpen, setIsMessageModalOpen] = useState(false)
     const [message, setMessage] = useState('')
@@ -34,7 +34,7 @@ export default function Shop(){
             setIsModalOpen(false)
             setMessage('Successfully purchased card!')
             setIsMessageModalOpen(true)
-            window.location.reload()
+            refethUserCards()
         }
         catch(error){
             let errorMessage = "Something went wrong. Please try again.";
@@ -79,7 +79,7 @@ export default function Shop(){
                         <p className="text-sm">Each owned card gives you a bonus</p>
                     </div>
                     <div className="w-[150px] h-[5px] bg-[#292139] mx-auto rounded-full blur-[3px] mb-10"></div>
-                    <p className="text-center mb-5 font-semibold text-xl">Collected {userCards.length} out of {CARDS_NUMBER} cards</p>
+                    <p className="text-center mb-5 font-semibold text-xl">Collected {userCards?.length} out of {CARDS_NUMBER} cards</p>
                     <ul className="flex flex-wrap justify-between max-w-[280px] mx-auto gap-5 justify-center">
                         {cardsData?.map((card)=>(
                             <li key={card.id} onClick={()=>{handleCardClick(card.id)}} className="flex flex-col items-center justify-between border-1 border-[#483D61] w-[130px] h-[175px] rounded-md

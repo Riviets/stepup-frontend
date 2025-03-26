@@ -32,7 +32,6 @@ export default function Tracker() {
         try{
             const formatedDate = formFormatedDateString()
             const response = await trackerService.getDailyCompletions(formatedDate)
-            console.log(response.data);
             const completions = response.data
             const completionsIds = completions.map((habit)=>habit.id)
             setDailyCompletionsIds(completionsIds)
@@ -57,7 +56,6 @@ export default function Tracker() {
     async function handleCollectBonus() {
         try {
             const formatedDate = formFormatedDateString()
-            console.log(formatedDate);
             const response = await trackerService.claimBonus(formatedDate);
             setMessage('Bonus received!');
             setIsMessageModalOpen(true);
