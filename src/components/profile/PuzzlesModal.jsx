@@ -4,18 +4,13 @@ import puzzle from '../../assets/puzzle.svg'
 import puzzleSet from "../../assets/puzzle-set.svg";
 import close from "../../assets/close.svg";
 import { levelsService } from "../../services/levelsService";
+import { PUZZLES_IN_SET } from "../../lib/constants";
 
 export default function PuzzlesModal({ onClose }) {
   const { data: puzzleSetsData } = useFetch(levelsService.getUserSets);
 
-  useEffect(() => {
-    if (puzzleSetsData) {
-      console.log(puzzleSetsData);
-    }
-  }, [puzzleSetsData]);
-
   const renderSquares = (collected) => {
-    const totalSquares = 4;
+    const totalSquares = PUZZLES_IN_SET
     const squares = [];
 
     for (let i = 0; i < totalSquares; i++) {
@@ -54,7 +49,7 @@ export default function PuzzlesModal({ onClose }) {
                 />
                 <div className="flex flex-col">
                   <p className="text-xl font-bold">Puzzle {set.set_name}</p>
-                  <p>{set.collected}/4</p>
+                  <p>{set.collected}/{PUZZLES_IN_SET}</p>
                 </div>
               </div>
                 <div className="flex justify-between gap-2">

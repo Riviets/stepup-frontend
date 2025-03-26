@@ -9,6 +9,7 @@ import CardModal from "./CardModal"
 import coins from '../../assets/coins.svg'
 import { useEffect, useState } from "react"
 import MessageModal from '../layout/MessageModal'
+import { CARDS_NUMBER } from "../../lib/constants"
 
 export default function Shop(){
 
@@ -78,6 +79,7 @@ export default function Shop(){
                         <p className="text-sm">Each owned card gives you a bonus</p>
                     </div>
                     <div className="w-[150px] h-[5px] bg-[#292139] mx-auto rounded-full blur-[3px] mb-10"></div>
+                    <p className="text-center mb-5 font-semibold text-xl">Collected {userCards.length} out of {CARDS_NUMBER} cards</p>
                     <ul className="flex flex-wrap justify-between max-w-[280px] mx-auto gap-5 justify-center">
                         {cardsData?.map((card)=>(
                             <li key={card.id} onClick={()=>{handleCardClick(card.id)}} className="flex flex-col items-center justify-between border-1 border-[#483D61] w-[130px] h-[175px] rounded-md

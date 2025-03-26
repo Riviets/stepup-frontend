@@ -16,6 +16,7 @@ import PuzzlesModal from "./PuzzlesModal"
 import StatsModal from "./StatsModal"
 import EditModal from "./EditModal"
 import ConfirmModal from "../layout/ConfirmModal"
+import { CARDS_NUMBER, PUZZLES_NUMBER, PUZZLE_SETS_NUMBER } from "../../lib/constants"
 
 export default function Profile(){
     const [isLoading, setIsLoading] = useState(false)
@@ -149,19 +150,19 @@ export default function Profile(){
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                             <img src={card} alt="Cards" />
                         </div>
-                        <p>{userCars.length}/10</p>
+                        <p>{userCars.length}/{CARDS_NUMBER}</p>
                     </li>
                     <li className="flex flex-col items-center gap-2 text-lg font-semibold">
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                             <img src={puzzle} alt="Puzzles" />
                         </div>
-                        <p>{userPuzzles.length}/16</p>
+                        <p>{userPuzzles.length}/{PUZZLES_NUMBER}</p>
                     </li>
                     <li className="flex flex-col items-center gap-2 text-lg font-semibold">
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                             <img src={puzzleSet} alt="Puzzle sets" />
                         </div>
-                        <p>{completedSets}/4</p>
+                        <p>{completedSets}/{PUZZLE_SETS_NUMBER}</p>
                     </li>
                 </ul>
             </div>

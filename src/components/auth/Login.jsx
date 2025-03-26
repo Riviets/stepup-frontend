@@ -16,7 +16,6 @@ export default function Login(){
             if(isSubmit && Object.keys(formErrors).length === 0){
                 try{
                     const response = await authService.loginUser(userData)
-                    console.log(response)
                     const {token} = response                    
                     localStorage.setItem('accessToken', token)
                     navigate('/profile')
