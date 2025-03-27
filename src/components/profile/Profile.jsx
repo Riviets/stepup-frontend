@@ -16,20 +16,24 @@ import PuzzlesModal from "./PuzzlesModal"
 import StatsModal from "./StatsModal"
 import EditModal from "./EditModal"
 import ConfirmModal from "../layout/ConfirmModal"
+import AchievementsModal from "./AchievementsModal"
 import { CARDS_NUMBER, PUZZLES_NUMBER, PUZZLE_SETS_NUMBER } from "../../lib/constants"
 
 export default function Profile(){
+    const {data: userPuzzleSets} = useFetch(levelsService.getUserSets)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [userData, setUserData] = useState({})
-    const [userCars, setUserCars] = useState([])
+    const [userCards, setUserCards] = useState([])
     const [userPuzzles, setUserPuzzles] = useState([])
-    const {data: userPuzzleSets} = useFetch(levelsService.getUserSets)
     const [completedSets, setCompletedSets] = useState(0)
+
     const [isPuzzlesModalOpen, setIsPuzzlesModalOpen] = useState(false)
     const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
+    const [isAchievementModalVisible, setIsAchievementModalVisible] = useState(false)
+
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -66,7 +70,7 @@ export default function Profile(){
             try{
                 setIsLoading(true)
                 const response = await shopService.getUserCards()
-                setUserCars(response.data)
+                setUserCards(response.data)
             }
             catch(err){
                 setError(err)
@@ -125,13 +129,22 @@ export default function Profile(){
             <div className="flex gap-7 items-start mb-8">
                     <img className="border-3 border-[#292139] rounded-lg min-h-full pfp" src={pfp} alt="User pfp" />
                     <div>
-                        <div className="flex gap-3 items-center">
-                            <p className="text-2xl text-white font-bold">{userData.username}</p>
-                            <div onClick={()=>{setIsEditModalOpen(true)}}  className="flex items-center justify-center bg-[#D9D9D9] border-2 box-border border-[#292139] rounded-sm w-[30px] h-[30px]">
-                                <button className="text-xl font-semibold -mb-[3px]">✎</button>
+                       <div className="flex items-start justify-between">
+                            <div>
+                                <div className="flex gap-3 items-center">
+                                    <p className="text-2xl text-white font-bold">{userData.username}</p>
+                                    <div onClick={()=>{setIsEditModalOpen(true)}}  className="flex items-center justify-center bg-[#D9D9D9] border-2 box-border border-[#292139] rounded-sm w-[30px] h-[30px]">
+                                        <button className="text-xl font-semibold -mb-[3px]">✎</button>
+                                    </div>
+                                </div>
+                                <p className="text-xl mb-2 text-white font-light">Level {userData.level}</p>
                             </div>
+                            <button onClick={()=>{setIsAchievementModalVisible(true)}} className="btn text-sm bg-gray-600">
+                                <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3.825 19L5.45 11.975L0 7.25L7.2 6.625L10 0L12.8 6.625L20 7.25L14.55 11.975L16.175 19L10 15.275L3.825 19Z" fill="#fce700"/>
+                                </svg>
+                            </button>
                         </div>
-                        <p className="text-xl mb-2 text-white font-light">Level {userData.level}</p>
                         <div className="flex justify-between max-h-[32px] px-[20px] font-black border rounded-md min-w-[200px] bg-gray-300 text-lg">
                             <div className="flex items-center gap-2">
                                 <p>{userData.xp}</p>
@@ -150,7 +163,7 @@ export default function Profile(){
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                             <img src={card} alt="Cards" />
                         </div>
-                        <p>{userCars.length}/{CARDS_NUMBER}</p>
+                        <p>{userCards.length}/{CARDS_NUMBER}</p>
                     </li>
                     <li className="flex flex-col items-center gap-2 text-lg font-semibold">
                         <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
@@ -168,10 +181,10 @@ export default function Profile(){
             </div>
             <div className="py-[15px] px-[30px] bg-[#D9D9D9] bg-opacity-85 rounded-lg border-3 border-[#292139] h-[38vh] overflow-scroll mb-15">
                 <p className="text-center font-bold text-2xl mb-5">Your cards:</p>
-                {userCars.length > 0 ?
+                {userCards.length > 0 ?
                 (
                     <ul className="flex flex-col gap-2">
-                    {userCars.map((cardData) => (
+                    {userCards.map((cardData) => (
                         <li className="flex gap-4 items-center font-semibold" key={cardData.id}>
                             <img src={card} alt="Card" />
                             <p>{cardData.name} (+ {cardData.bonus_value} {getBonusString(cardData.bonus_type)})</p>
@@ -182,7 +195,7 @@ export default function Profile(){
                 <p className="text-xl">So Empty Here...</p>
             }
             </div>
-           <div className="flex gap-8">
+           <div className="flex flex-wrap gap-4">
             <button onClick={()=>{setIsConfirmModalOpen(true)}} className="btn bg-red-500 border-red-700 hover:bg-red-600">Log out</button>
             <button onClick={()=>{setIsStatsModalOpen(true)}} className="btn bg-blue-500 border-blue-700 hover:bg-blue-600">Stats</button>
            </div>
@@ -192,6 +205,8 @@ export default function Profile(){
         {isStatsModalOpen && <StatsModal onClose={()=>{setIsStatsModalOpen(false)}}/>}
         {isEditModalOpen && <EditModal onClose={()=>{setIsEditModalOpen(false)}}/>}
         {isConfirmModalOpen && <ConfirmModal onClose={()=>{setIsConfirmModalOpen(false)}} message={'logout'} onConfirm={handleLogout}/>}
+        {isAchievementModalVisible && <AchievementsModal onClose={()=>{setIsAchievementModalVisible(false)}}
+                                        userData={userData} userCards={userCards} userPuzzles={userPuzzles} userPuzzleSets={userPuzzleSets}/>}
       </div>
     )
 }

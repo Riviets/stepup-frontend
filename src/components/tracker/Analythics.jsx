@@ -1,21 +1,12 @@
 import React from 'react';
 import useFetch from "../hooks/useFetch";
 import { trackerService } from "../../services/trackerService";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import close from "../../assets/close.svg"
 
 
 export default function Analytics({onClose}) {
   const { data: analyticsData, isLoading, error } = useFetch(trackerService.getAnalytics);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (analyticsData) {
-      console.log(JSON.stringify(analyticsData, null, 2));
-    }
-  }, [analyticsData]);
 
   const formatChartData = (dailyData) => {
     if (!dailyData) return [];
