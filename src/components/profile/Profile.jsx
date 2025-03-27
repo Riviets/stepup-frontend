@@ -210,7 +210,7 @@ export default function Profile(){
         {isPuzzlesModalOpen && <PuzzlesModal onClose={()=>{setIsPuzzlesModalOpen(false)}} />}
         {isStatsModalOpen && <StatsModal onClose={()=>{setIsStatsModalOpen(false)}}/>}
         {isEditModalOpen && <EditModal onClose={()=>{setIsEditModalOpen(false)}}/>}
-        {isConfirmModalOpen && <ConfirmModal onClose={()=>{setIsConfirmModalOpen(false)}} message={'logout'} onConfirm={handleLogout}/>}
+        {isConfirmModalOpen && <ConfirmModal onClose={()=>{setIsConfirmModalOpen(false)}} message={t('profile.logoutMessage')} onConfirm={handleLogout}/>}
         {isAchievementModalVisible && <AchievementsModal onClose={()=>{setIsAchievementModalVisible(false)}}
                                         userData={userData} userCards={userCards} userPuzzles={userPuzzles} userPuzzleSets={userPuzzleSets}/>}
       </div>

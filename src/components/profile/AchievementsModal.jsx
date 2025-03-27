@@ -33,5 +33,5 @@ export default function AchievementsModal({ onClose, userData, userCards, userPu
                 </button>
             </div>
         </div>
-    );
+    )
 }
