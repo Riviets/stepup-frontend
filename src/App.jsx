@@ -12,6 +12,8 @@ import ProtectedRoute from './components/utils/ProtectedRoute'
 import AddHabit from './components/habits/AddHabit'
 import EditHabit from './components/habits/EditHabit'
 
+import './i18n';
+
 const router = createBrowserRouter([
   {
     path: '/',

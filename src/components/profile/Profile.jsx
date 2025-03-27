@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import Navigation from "../layout/Navigation"
 import { authService } from "../../services/authService"
 import xp from '../../assets/xp.png'
@@ -17,9 +18,11 @@ import StatsModal from "./StatsModal"
 import EditModal from "./EditModal"
 import ConfirmModal from "../layout/ConfirmModal"
 import AchievementsModal from "./AchievementsModal"
+import LanguageSwitcher from "./LanguageSwitcher"
 import { CARDS_NUMBER, PUZZLES_NUMBER, PUZZLE_SETS_NUMBER } from "../../lib/constants"
 
 export default function Profile(){
+    const { t } = useTranslation()
     const {data: userPuzzleSets} = useFetch(levelsService.getUserSets)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -137,7 +140,7 @@ export default function Profile(){
                                         <button className="text-xl font-semibold -mb-[3px]">✎</button>
                                     </div>
                                 </div>
-                                <p className="text-xl mb-2 text-white font-light">Level {userData.level}</p>
+                                <p className="text-xl mb-2 text-white font-light">{t('profile.level')} {userData.level}</p>
                             </div>
                             <button onClick={()=>{setIsAchievementModalVisible(true)}} className="btn text-sm bg-gray-600">
                                 <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -180,7 +183,7 @@ export default function Profile(){
                 </ul>
             </div>
             <div className="py-[15px] px-[30px] bg-[#D9D9D9] bg-opacity-85 rounded-lg border-3 border-[#292139] h-[38vh] overflow-scroll mb-15">
-                <p className="text-center font-bold text-2xl mb-5">Your cards:</p>
+                <p className="text-center font-bold text-2xl mb-5">{t('profile.cards')}:</p>
                 {userCards.length > 0 ?
                 (
                     <ul className="flex flex-col gap-2">
@@ -192,12 +195,15 @@ export default function Profile(){
                 </ul>
                 )    
                 :
-                <p className="text-xl">So Empty Here...</p>
+                <p className="text-xl">{t('profile.emptyCards')}</p>
             }
             </div>
            <div className="flex flex-wrap gap-4">
-            <button onClick={()=>{setIsConfirmModalOpen(true)}} className="btn bg-red-500 border-red-700 hover:bg-red-600">Log out</button>
-            <button onClick={()=>{setIsStatsModalOpen(true)}} className="btn bg-blue-500 border-blue-700 hover:bg-blue-600">Stats</button>
+            <button onClick={()=>{setIsConfirmModalOpen(true)}} className="btn bg-red-500 border-red-700 hover:bg-red-600">{t('profile.logout')}</button>
+            <button onClick={()=>{setIsStatsModalOpen(true)}} className="btn bg-blue-500 border-blue-700 hover:bg-blue-600">{t('profile.stats')}</button>
+           </div>
+           <div className="mt-4">
+            <LanguageSwitcher />
            </div>
         </div>
         <Navigation />

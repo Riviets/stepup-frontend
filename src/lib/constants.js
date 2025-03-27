@@ -4,61 +4,52 @@ export const PUZZLE_SETS_NUMBER = 4
 export const PUZZLES_IN_SET = 4
 export const MAX_LEVEL = 20
 
-export const ACHIEVEMENTS = [
+export const ACHIEVEMENTS = (t) => [
     {
-        title: "Customer",
-        description: "Collect 5 cards",
-        image: null,
+        title: t('achievements.customer.title'),
+        description: t('achievements.customer.description'),
         condition: (userCards) => userCards.length >= 5
     },
     {
-        title: "Cards magnate",
-        description: "Collect 9 cards",
-        image: null,
+        title: t('achievements.cardsMagnate.title'),
+        description: t('achievements.cardsMagnate.description'),
         condition: (userCards) => userCards.length >= 9
     },
     {
-        title: "Collector",
-        description: "Complete your first puzzle set",
-        image: null,
+        title: t('achievements.collector.title'),
+        description: t('achievements.collector.description'),
         condition: function (userCards, userPuzzleSets) {            
             return userPuzzleSets.some(set => set?.collected === PUZZLES_IN_SET);
         }
     },
     {
-        title: "Beginner",
-        description: "Reach 500 XP",
-        image: null,
+        title: t('achievements.beginner.title'),
+        description: t('achievements.beginner.description'),
         condition: (userCards, userPuzzleSets, userData) => userData.xp >= 350
     },
     {
-        title: "I need more!",
-        description: "Reach 1000 XP",
-        image: null,
+        title: t('achievements.ineedmore.title'),
+        description: t('achievements.ineedmore.description'),
         condition: (userCards, userPuzzleSets, userData) => userData.xp >= 1000
     },
     {
-        title: "My precious!",
-        description: "Reach 2000 XP",
-        image: null,
+        title: t('achievements.myprecious.title'),
+        description: t('achievements.myprecious.description'),
         condition: (userCards, userPuzzleSets, userData) => userData.xp >= 2500
     },
     {
-        title: "Tester",
-        description: "Reach level 5",
-        image: null,
+        title: t('achievements.tester.title'),
+        description: t('achievements.tester.description'),
         condition: (userCards, userPuzzleSets, userData) => userData.level >= 5
     },
     {
-        title: "Opportunist",
-        description: "Reach level 10",
-        image: null,
+        title: t('achievements.opportunist.title'),
+        description: t('achievements.opportunist.description'),
         condition: (userCards, userPuzzleSets, userData) => userData.level >= 10
     },
     {
-        title: "Champion",
-        description: "Reach max level",
-        image: null,
+        title: t('achievements.champion.title'),
+        description: t('achievements.champion.description'),
         condition: (userCards, userPuzzleSets, userData) => userData.level === MAX_LEVEL
     },
 ]

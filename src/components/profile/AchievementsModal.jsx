@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import close from "../../assets/close.svg";
 import { PUZZLES_IN_SET, MAX_LEVEL, ACHIEVEMENTS } from "../../lib/constants";
 
 export default function AchievementsModal({ onClose, userData, userCards, userPuzzleSets }) {
+    const { t } = useTranslation();
+
     return (
         <div className="flex justify-center items-center fixed inset-0" style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
             <div className="bg-[#D9D9D9] py-12 px-6 rounded-lg border-2 border-[#292139] relative w-full max-w-[350px]">
-                <p className="text-center text-2xl font-bold mb-6">Achievements</p>
+                <p className="text-center text-2xl font-bold mb-6">{t('profile.achievements')}</p>
                 <ul className="flex flex-col gap-6 h-full max-h-[320px] overflow-scroll">
-                    {ACHIEVEMENTS.map((achievement) => {
+                    {ACHIEVEMENTS(t).map((achievement) => {
                         const isAchieved = achievement.condition(userCards, userPuzzleSets, userData);
                         return (
                             <li key={achievement.title} className={`flex items-center justify-between gap-3 border-2 px-5 py-4 rounded-md shadow-lg ${isAchieved ? "bg-yellow-100" : "bg-gray-300"}`}>
