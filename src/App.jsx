@@ -11,6 +11,7 @@ import Register from './components/auth/Register'
 import ProtectedRoute from './components/utils/ProtectedRoute'
 import AddHabit from './components/habits/AddHabit'
 import EditHabit from './components/habits/EditHabit'
+import Friends from './components/friends/Friends'
 
 import './i18n';
 
@@ -76,6 +77,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Profile />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: '/friends',
+    element: (
+      <ProtectedRoute>
+        <Friends />
       </ProtectedRoute>
     )
   },
