@@ -6,6 +6,7 @@ import { useState } from "react"
 import FindFriendsModal from "./FindFriendsModal"
 import FriendRequests from "./FriendRequests"
 import arrow from '../../assets/arrow-bottom.png';
+import FriendsList from "./FriendsList"
 
 
 export default function Friends(){
@@ -19,7 +20,6 @@ export default function Friends(){
             <div className="flex justify-center">
                 <div className="bg-[#D9D9D9] w-full max-w-[350px]  border-2 border-[#292139] rounded-md py-8 px-6 min-h-[600px]">
                     <button onClick={()=>{navigate(-1)}} className="text-white bg-purple-800 font-bold px-5 border-2 border-[#292139] rounded-sm shadow-lg mb-8">Go Back</button>
-                    <p className="text-2xl text-center font-bold mb-5">Your Friends</p>
                     <button onClick={()=>{setIsFindModalOpen(true)}} className="w-full text-center mb-6 text-lg border-2 rounded-md shadow-md tracking-wider font-semibold bg-white">Find friends &#128269;</button>
                     <div onClick={()=>{setRequestsVisible((prev)=>!prev)}} className="mb-5 bg-white rounded-md border-2 border-[#292139] px-5 pt-3">
                         <div className="flex justify-between items-center text-xl font-bold mb-3">
@@ -32,27 +32,8 @@ export default function Friends(){
                         </div>
                         {requestsVisible && <FriendRequests />}
                     </div>
-                    {friends?.length === 0 ? 
-                    <p className="text-xl text-center font-bold">No friends</p> :
-                    <ul>
-                        {friends?.map((friend)=>(
-                            <li key={friend.id} className="flex flex-col gap-5 bg-white px-5 py-4 border border-[#292139] rounded-md shadow-md">
-                               <div className="flex justify-between gap-3 flex-wrap w-full items-center">
-                                    <div className="flex flex-col">
-                                        <p className="text-xl font-bold">{friend.username}</p>
-                                        <p className="text-sm">{friend.email}</p>
-                                    </div>
-                                    <div className="habit-btn">
-                                        <button className="text-2xl font-bold -mt-[3px]">-</button>
-                                    </div>
-                               </div>
-                               <button className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg"> 
-                                    Propose habit
-                               </button>
-                            </li>
-                        ))}
-                    </ul>
-                    }
+                    <p className="text-2xl text-center font-bold mb-5">Your Friends</p>
+                    <FriendsList friends={friends}/>
                 </div>
             </div>
             <Navigation />
