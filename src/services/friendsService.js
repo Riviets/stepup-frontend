@@ -35,10 +35,11 @@ export const friendsService = {
     sendFriendshipRequest: async (friendId) => {
         try{
             const token = localStorage.getItem('accessToken')
-            const response = await axios.post(`${API_URL}/request`,{
-                params:{
+            const response = await axios.post(`${API_URL}/request`,
+                {
                     friend_id: friendId
                 },
+                {
                 headers:{
                     'Authorization': `Bearer ${token}`,
                 }
@@ -46,6 +47,7 @@ export const friendsService = {
             return response
         }
         catch(error){
+            console.log('Помилка:', error.response?.data || error.message);
             throw error
         }
     },

@@ -1,12 +1,16 @@
 import { useState } from "react";
 import close from "../../assets/close.svg";
 import { userService } from "../../services/userService";
+import { friendsService } from "../../services/friendsService";
+import MessageModal from "../layout/MessageModal"
 
 export default function FindFriendsModal({onClose}){
 
     const [inputValue, setInputValue] = useState('')
     const [foundUsers, setFoundUsers] = useState([])
     const [message, setMessage] = useState('Users will be shown here')
+    const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
+    const [modalMessage, setModalMessage] = useState('')
 
     function handleChange(event){
         setInputValue(event.target.value)
@@ -21,6 +25,20 @@ export default function FindFriendsModal({onClose}){
         else{
             setFoundUsers([])
             setMessage('No users found!')
+        }
+    }
+
+    async function handleSendRequest(friendId){
+        try{
+            const response = await friendsService.sendFriendshipRequest(friendId)
+            console.log(response.data);
+            setModalMessage('Request sent')
+        }
+        catch(error){
+            setModalMessage(error.response?.data?.message)
+        }
+        finally{
+            setIsMessageModalVisible(true)
         }
     }
 
@@ -50,7 +68,7 @@ export default function FindFriendsModal({onClose}){
                                     <p className="text-xl font-bold">{user.username}</p>
                                     <p className="text-sm">{user.email}</p>
                                 </div>
-                               <button className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg"> 
+                               <button onClick={()=>{handleSendRequest(user.id)}} className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg"> 
                                     Send request
                                </button>
                         </li>
@@ -61,6 +79,7 @@ export default function FindFriendsModal({onClose}){
                     <img src={close} alt="Close Stats Modal" className="min-w-[15px]" />
                 </button>
             </div>
+            {isMessageModalVisible && <MessageModal message={modalMessage} onClose={()=>{setIsMessageModalVisible(false)}}/>}
         </div>
     )
 }
