@@ -22,7 +22,8 @@ const resources = {
         emptyCards: 'Тут порожньо...',
         achievements: 'Досягнення',
         level: 'Рівень',
-        logoutMessage: 'вийти з аккаунту?'
+        logoutMessage: 'вийти з аккаунту?',
+        friends: 'Друзі'
       },
       achievements: {
         customer: {
@@ -194,6 +195,28 @@ const resources = {
         confirmPrompt: 'Ви впевнені, що хочете {{message}}',
         yes: 'Так',
         no: 'Ні'
+      },
+      friends: {
+        goBack: 'Назад',
+        findFriends: 'Знайти друзів 🔍',
+        friendRequests: 'Запити на дружбу',
+        yourFriends: 'Ваші друзі',
+        noFriends: 'Немає друзів'
+      },
+      friendsList: {
+        proposeHabit: 'Запропонувати звичку'
+      },
+      findFriendsModal: {
+        title: 'Знайти нових друзів!',
+        placeholder: 'Введіть тут',
+        usersWillBeShown: 'Користувачі будуть показані тут',
+        noUsersFound: 'Користувачів не знайдено!',
+        sendRequest: 'Надіслати запит',
+        requestSent: 'Запит надіслано',
+        serverError: 'Помилка з\'єднання з сервером'
+      },
+      friendRequests: {
+        noRequests: 'Поки що немає запитів...'
       }
     }
   },
@@ -215,7 +238,8 @@ const resources = {
         emptyCards: 'So Empty Here...',
         achievements: 'Achievements',
         level: 'Level',
-        logoutMessage: 'logout?'
+        logoutMessage: 'logout?',
+        friends: 'Friends'
       },
       achievements: {
         customer: {
@@ -387,6 +411,28 @@ const resources = {
         confirmPrompt: 'Are you sure you want to {{message}}?',
         yes: 'Yes',
         no: 'No'
+      },
+      friends: {
+        goBack: 'Go Back',
+        findFriends: 'Find friends 🔍',
+        friendRequests: 'Friend requests',
+        yourFriends: 'Your Friends',
+        noFriends: 'No friends'
+      },
+      friendsList: {
+        proposeHabit: 'Propose habit'
+      },
+      findFriendsModal: {
+        title: 'Find new friends!',
+        placeholder: 'Enter here',
+        usersWillBeShown: 'Users will be shown here',
+        noUsersFound: 'No users found!',
+        sendRequest: 'Send request',
+        requestSent: 'Request sent',
+        serverError: 'Server connection error'
+      },
+      friendRequests: {
+        noRequests: 'No requests yet...'
       }
     }
   }
