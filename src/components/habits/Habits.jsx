@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 
 export default function Habits() {
   const { t } = useTranslation();
-  const [defaultHabitsVisible, setDefaultHabitsVisible] = useState(true);
+  const [defaultHabitsVisible, setDefaultHabitsVisible] = useState(false);
   const [userHabitsVisible, setUserHabitsVisible] = useState(false);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [message, setMessage] = useState('');

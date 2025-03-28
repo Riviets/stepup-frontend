@@ -16,5 +16,20 @@ export const friendsService = {
         catch(error){
             throw error
         }
+    },
+    getUSerRequests: async () => {
+        try{
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.get(`${API_URL}/requests`, {
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+
+                }
+            }) 
+            return response
+        }
+        catch(error){
+            throw error
+        }
     }
 }

@@ -4,10 +4,14 @@ import useFetch from "../hooks/useFetch"
 import { friendsService } from "../../services/friendsService"
 import { useState } from "react"
 import FindFriendsModal from "./FindFriendsModal"
+import FriendRequests from "./FriendRequests"
+import arrow from '../../assets/arrow-bottom.png';
+
 
 export default function Friends(){
     const {data: friends, refetch} = useFetch(friendsService.getUserFriends)
     const [isFindModalOpen, setIsFindModalOpen] = useState(false)
+    const [requestsVisible, setRequestsVisible] = useState(false)
     const navigate = useNavigate()
 
     return(
@@ -17,6 +21,17 @@ export default function Friends(){
                     <button onClick={()=>{navigate(-1)}} className="text-white bg-purple-800 font-bold px-5 border-2 border-[#292139] rounded-sm shadow-lg mb-8">Go Back</button>
                     <p className="text-2xl text-center font-bold mb-5">Your Friends</p>
                     <button onClick={()=>{setIsFindModalOpen(true)}} className="w-full text-center mb-6 text-lg border-2 rounded-md shadow-md tracking-wider font-semibold bg-white">Find friends &#128269;</button>
+                    <div onClick={()=>{setRequestsVisible((prev)=>!prev)}} className="mb-5 bg-white rounded-md border-2 border-[#292139] px-5 pt-3">
+                        <div className="flex justify-between items-center text-xl font-bold mb-3">
+                            <p>Friend requests</p>
+                            <img 
+                                src={arrow} 
+                                alt="Show/Hide" 
+                                className={`transition-transform duration-300 ${requestsVisible ? 'rotate-180' : ''}`} 
+                            />
+                        </div>
+                        {requestsVisible && <FriendRequests />}
+                    </div>
                     {friends?.length === 0 ? 
                     <p className="text-xl text-center font-bold">No friends</p> :
                     <ul>

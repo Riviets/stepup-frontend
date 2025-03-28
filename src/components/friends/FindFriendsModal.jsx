@@ -6,7 +6,7 @@ export default function FindFriendsModal({onClose}){
 
     const [inputValue, setInputValue] = useState('')
     const [foundUsers, setFoundUsers] = useState([])
-    const [message, setMessage] = useState('Users will be displayed here')
+    const [message, setMessage] = useState('Users will be shown here')
 
     function handleChange(event){
         setInputValue(event.target.value)
