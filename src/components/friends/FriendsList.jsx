@@ -3,7 +3,7 @@ export default function FriendsList({friends}){
         <div>
             {friends?.length === 0 ? 
                     <p className="text-xl text-center font-bold">No friends</p> :
-                    <ul>
+                    <ul className="flex flex-col gap-5 max-h-[300px] overflow-scroll">
                         {friends?.map((friend)=>(
                             <li key={friend.id} className="flex flex-col gap-5 bg-white px-5 py-4 border border-[#292139] rounded-md shadow-md">
                                <div className="flex justify-between gap-3 flex-wrap w-full items-center">

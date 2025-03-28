@@ -10,7 +10,7 @@ import FriendsList from "./FriendsList"
 
 
 export default function Friends(){
-    const {data: friends, refetch} = useFetch(friendsService.getUserFriends)
+    const {data: friends, refetch: refetchFriends} = useFetch(friendsService.getUserFriends)
     const [isFindModalOpen, setIsFindModalOpen] = useState(false)
     const [requestsVisible, setRequestsVisible] = useState(false)
     const navigate = useNavigate()
@@ -30,7 +30,7 @@ export default function Friends(){
                                 className={`transition-transform duration-300 ${requestsVisible ? 'rotate-180' : ''}`} 
                             />
                         </div>
-                        {requestsVisible && <FriendRequests />}
+                        {requestsVisible && <FriendRequests refetchFriends={refetchFriends}/>}
                     </div>
                     <p className="text-2xl text-center font-bold mb-5">Your Friends</p>
                     <FriendsList friends={friends}/>

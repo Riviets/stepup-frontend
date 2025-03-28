@@ -2,14 +2,34 @@ import { friendsService } from "../../services/friendsService"
 import useFetch from "../hooks/useFetch"
 import tick from "../../assets/tick.svg"
 import close from "../../assets/close.svg"
+import { useState } from "react"
 
-export default function FriendRequests(){
+export default function FriendRequests({refetchFriends}){
     const {data: userRequests} = useFetch(friendsService.getUSerRequests)
+
+    async function handleConfirm(requestId){
+        try{
+            await friendsService.respondToFriendshipRequest(requestId, true)
+            refetchFriends()
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+
+    async function handleReject(requestId){
+        try{
+            await friendsService.respondToFriendshipRequest(requestId, false)
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
 
     return(
         <div>
             {userRequests?.length === 0 ? 
-            <p>No requests yet...</p>
+            <p className="py-6 text-lg font-semibold">No requests yet...</p>
             :
             (
                 <ul className="py-6">
@@ -20,10 +40,10 @@ export default function FriendRequests(){
                                 <p className="font-light text-sm">{request.email}</p>
                             </div>
                             <div className="flex gap-2">
-                                <button className="flex items-center justify-center border w-[30px] h-[30px] rounded-sm bg-white">
+                                <button onClick={()=>{handleConfirm(request.id)}} className="flex items-center justify-center border w-[30px] h-[30px] rounded-sm bg-white">
                                     <img src={tick} alt="Yes" />
                                 </button>
-                                <button className="flex items-center justify-center border w-[30px] h-[30px] rounded-sm bg-white">
+                                <button onClick={()=>{handleReject(request.id)}} className="flex items-center justify-center border w-[30px] h-[30px] rounded-sm bg-white">
                                     <img src={close} alt="No" />
                                 </button>
                             </div>
