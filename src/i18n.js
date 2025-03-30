@@ -137,7 +137,8 @@ const resources = {
         permanentlyDelete: 'назавжди видалити цю звичку?',
         serverError: 'Помилка з\'єднання з сервером',
         suggested: 'Запропоновані',
-        from: 'Від'
+        from: 'Від',
+        noSuggestions: 'Ваші друзі можуть запропонувати вам звички'
       },
       addHabit: {
         title: 'Додати звичку',
@@ -356,7 +357,8 @@ const resources = {
         permanentlyDelete: 'Permanently delete this habit?',
         serverError: 'Server connection error',
         suggested: 'Suggested',
-        from: "From"
+        from: "From",
+        noSuggestions: "Your friends can suggest you a habit"
       },
       addHabit: {
         title: 'Add Habit',
