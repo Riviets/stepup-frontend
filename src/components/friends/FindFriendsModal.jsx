@@ -4,6 +4,8 @@ import { userService } from "../../services/userService";
 import { friendsService } from "../../services/friendsService";
 import MessageModal from "../layout/MessageModal";
 import { useTranslation } from "react-i18next";
+import { getAvatarUrl } from "../../lib/utils";
+import pfpDefault from '../../assets/pfp-default.png'
 
 export default function FindFriendsModal({ onClose }) {
   const { t } = useTranslation();
@@ -89,10 +91,14 @@ export default function FindFriendsModal({ onClose }) {
                 key={user.id}
                 className="flex flex-col gap-5 bg-white border-2 border-[#292139] rounded-md shadow-lg px-6 py-3"
               >
-                <div className="flex flex-col">
-                  <p className="text-xl font-bold">{user.username}</p>
-                  <p className="text-sm">{user.email}</p>
-                </div>
+               <div className="flex justify-between items-center">
+                  <div className="flex flex-col">
+                    <p className="text-xl font-bold">{user.username}</p>
+                    <p className="text-sm">{user.email}</p>
+                  </div>
+                  <img src={getAvatarUrl(user)} alt="User pfp" onError={(e)=>{e.target.src = {pfpDefault}}} 
+                        className="border-2 border-[#292139] rounded-md w-[50px] h-[50px] shadow-lg"/>
+               </div>
                 <button
                   onClick={() => handleSendRequest(user.id)}
                   className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg"
