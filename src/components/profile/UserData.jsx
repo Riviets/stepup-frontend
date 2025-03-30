@@ -2,20 +2,12 @@ import xp from '../../assets/xp.png';
 import coins from '../../assets/coins.svg';
 import pfpDefault from '../../assets/pfp-default.png';
 import { useTranslation } from "react-i18next";
-import { REACT_APP_API_URL } from '../../lib/constants';
-import { useEffect } from 'react';
+import { getAvatarUrl } from '../../lib/utils';
 
 export default function UserData({ userData, handleOpenAchievementModal, handleOpenEditModal }) {
   const { t } = useTranslation();
 
-  const getAvatarUrl = () => {
-    if (!userData || !userData.avatar_id || userData.avatar_id === 1) {
-      return `${REACT_APP_API_URL}/avatars/avatar1.png`
-    }
-    return `${REACT_APP_API_URL}/avatars/avatar${userData.avatar_id}.png`
-  };
-
-  const avatarUrl = getAvatarUrl()
+  const avatarUrl = getAvatarUrl(userData)
 
   return (
     <div className="flex gap-7 items-start mb-8">
