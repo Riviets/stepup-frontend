@@ -8,6 +8,7 @@ import FriendRequests from "./FriendRequests";
 import arrow from '../../assets/arrow-bottom.png';
 import FriendsList from "./FriendsList";
 import { useTranslation } from "react-i18next";
+import Spinner from "../layout/Spinner";
 
 export default function Friends() {
   const { t } = useTranslation();
@@ -17,41 +18,49 @@ export default function Friends() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen py-10">
-      <div className="flex justify-center">
-        <div className="bg-[#D9D9D9] w-full max-w-[350px] border-2 border-[#292139] rounded-md py-8 px-6 min-h-[600px]">
-          <button
-            onClick={() => navigate(-1)}
-            className="text-white bg-purple-800 font-bold px-5 border-2 border-[#292139] rounded-sm shadow-lg mb-8"
-          >
-            {t('friends.goBack')}
-          </button>
-          <button
-            onClick={() => setIsFindModalOpen(true)}
-            className="w-full text-center mb-6 text-lg border-2 rounded-md shadow-md tracking-wider font-semibold bg-white"
-          >
-            {t('friends.findFriends')}
-          </button>
-          <div
-            onClick={() => setRequestsVisible((prev) => !prev)}
-            className="mb-5 bg-white rounded-md border-2 border-[#292139] px-5 pt-3"
-          >
-            <div className="flex justify-between items-center text-xl font-bold mb-3">
-              <p>{t('friends.friendRequests')}</p>
-              <img
-                src={arrow}
-                alt="Show/Hide"
-                className={`transition-transform duration-300 ${requestsVisible ? 'rotate-180' : ''}`}
-              />
+    <div>
+      {friends ? (
+        <div className="min-h-screen py-10">
+          <div className="flex justify-center">
+            <div className="bg-[#D9D9D9] w-full max-w-[350px] border-2 border-[#292139] rounded-md py-8 px-6 min-h-[600px]">
+              <button
+                onClick={() => navigate(-1)}
+                className="text-white bg-purple-800 font-bold px-5 border-2 border-[#292139] rounded-sm shadow-lg mb-8"
+              >
+                {t('friends.goBack')}
+              </button>
+              <button
+                onClick={() => setIsFindModalOpen(true)}
+                className="w-full text-center mb-6 text-lg border-2 rounded-md shadow-md tracking-wider font-semibold bg-white"
+              >
+                {t('friends.findFriends')}
+              </button>
+              <div
+                onClick={() => setRequestsVisible((prev) => !prev)}
+                className="mb-5 bg-white rounded-md border-2 border-[#292139] px-5 pt-3"
+              >
+                <div className="flex justify-between items-center text-xl font-bold mb-3">
+                  <p>{t('friends.friendRequests')}</p>
+                  <img
+                    src={arrow}
+                    alt="Show/Hide"
+                    className={`transition-transform duration-300 ${requestsVisible ? 'rotate-180' : ''}`}
+                  />
+                </div>
+                {requestsVisible && <FriendRequests refetchFriends={refetchFriends} />}
+              </div>
+              <p className="text-2xl text-center font-bold mb-5">{t('friends.yourFriends')}</p>
+              <FriendsList friends={friends} refetchFriends={refetchFriends}/>
             </div>
-            {requestsVisible && <FriendRequests refetchFriends={refetchFriends} />}
           </div>
-          <p className="text-2xl text-center font-bold mb-5">{t('friends.yourFriends')}</p>
-          <FriendsList friends={friends} refetchFriends={refetchFriends}/>
+          <Navigation />
+          {isFindModalOpen && <FindFriendsModal onClose={() => setIsFindModalOpen(false)} />}
         </div>
-      </div>
-      <Navigation />
-      {isFindModalOpen && <FindFriendsModal onClose={() => setIsFindModalOpen(false)} />}
+      ) : (
+        <div className="flex items-center justify-center min-h-screen w-full">
+          <Spinner />
+        </div>
+      )}
     </div>
   );
 }
