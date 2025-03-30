@@ -11,13 +11,13 @@ export default function UserStats({userCards, userPuzzles, completedSets, handle
                     <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                         <img src={card} alt="Cards" />
                     </div>
-                    <p>{userCards.length}/{CARDS_NUMBER}</p>
+                   {userCards && <p>{userCards?.length}/{CARDS_NUMBER}</p>}
                 </li>
                 <li className="flex flex-col items-center gap-2 text-lg font-semibold">
                     <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">
                         <img src={puzzle} alt="Puzzles" />
                     </div>
-                    <p>{userPuzzles.length}/{PUZZLES_NUMBER}</p>
+                    <p>{userPuzzles?.length}/{PUZZLES_NUMBER}</p>
                 </li>
                 <li className="flex flex-col items-center gap-2 text-lg font-semibold">
                     <div className="flex items-center justify-center w-[50px] h-[50px] border-2 rounded-md border-[#1A1C25] ">

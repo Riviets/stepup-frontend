@@ -20,13 +20,13 @@ export default function UserCards({userCards}){
     return(
             <div className="py-[15px] px-[30px] bg-[#D9D9D9] bg-opacity-85 rounded-lg border-3 border-[#292139] h-[38vh] overflow-scroll mb-8">
                 <p className="text-center font-bold text-2xl mb-5">{t('profile.cards')}:</p>
-                {userCards.length > 0 ?
+                {userCards?.length > 0 ?
                 (
                     <ul className="flex flex-col gap-2">
-                    {userCards.map((cardData) => (
-                        <li className="flex gap-4 items-center font-semibold" key={cardData.id}>
+                    {userCards?.map((cardData) => (
+                        <li className="flex gap-4 items-center font-semibold" key={cardData?.id}>
                             <img src={card} alt="Card" />
-                            <p>{cardData.name} (+ {cardData.bonus_value} {getBonusString(cardData.bonus_type)})</p>
+                            <p>{cardData?.name} (+ {cardData?.bonus_value} {getBonusString(cardData?.bonus_type)})</p>
                         </li>))}
                 </ul>
                 )    

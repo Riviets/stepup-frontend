@@ -5,7 +5,7 @@ import { authService } from "../../services/authService";
 import { userService } from "../../services/userService";
 import { useTranslation } from "react-i18next";
 
-export default function EditModal({ onClose }) {
+export default function EditModal({ onClose, refetchUserData }) {
   const { t } = useTranslation();
   const { data: userData } = useFetch(authService.getCurrentUser);
   const [usernameText, setUsernameText] = useState(t('editModal.loading'));
@@ -22,8 +22,8 @@ export default function EditModal({ onClose }) {
       if (userData) {
         setIsLoading(true);
         const response = await userService.editAuthUser({ username: usernameText });
-        console.log(response.data);
-        window.location.reload();
+        refetchUserData()
+        onClose()
       }
     } catch (error) {
       console.log(error.response?.data?.message);

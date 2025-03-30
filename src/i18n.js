@@ -22,7 +22,8 @@ const resources = {
         emptyCards: 'Тут порожньо...',
         achievements: 'Досягнення',
         level: 'Рівень',
-        logoutMessage: 'вийти з аккаунту?'
+        logoutMessage: 'вийти з аккаунту?',
+        friends: 'Друзі'
       },
       achievements: {
         customer: {
@@ -238,7 +239,8 @@ const resources = {
         emptyCards: 'So Empty Here...',
         achievements: 'Achievements',
         level: 'Level',
-        logoutMessage: 'logout?'
+        logoutMessage: 'logout?',
+        friends: 'Friends'
       },
       achievements: {
         customer: {

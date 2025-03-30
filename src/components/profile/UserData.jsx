@@ -15,12 +15,12 @@ export default function UserData({userData, handleOpenAchievementModal, handleOp
         <div className="flex items-start justify-between">
                 <div>
                     <div className="flex gap-3 items-center">
-                        <p className="text-2xl text-white font-bold">{userData.username}</p>
+                        <p className="text-2xl text-white font-bold">{userData?.username}</p>
                         <div onClick={handleOpenEditModal}  className="flex items-center justify-center bg-[#D9D9D9] border-2 box-border border-[#292139] rounded-sm w-[30px] h-[30px]">
                             <button className="text-xl font-semibold -mb-[3px]">✎</button>
                         </div>
                     </div>
-                    <p className="text-xl mb-2 text-white font-light">{t('profile.level')} {userData.level}</p>
+                    <p className="text-xl mb-2 text-white font-light">{t('profile.level')} {userData?.level}</p>
                 </div>
                 <button onClick={handleOpenAchievementModal} className="btn text-sm bg-gray-600">
                     <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,11 +30,11 @@ export default function UserData({userData, handleOpenAchievementModal, handleOp
             </div>
             <div className="flex justify-between max-h-[32px] px-[20px] font-black border rounded-md min-w-[200px] bg-gray-300 text-lg">
                 <div className="flex items-center gap-2">
-                    <p>{userData.xp}</p>
+                    <p>{userData?.xp}</p>
                     <img className="min-w-[25px]" src={xp} alt="xp"/>
                 </div>
             <div className="flex items-center">
-                    <p>{userData.currency}</p>
+                    <p>{userData?.currency}</p>
                     <img className="w-full max-w-[30px]" src={coins} alt="coins" />
             </div>
             </div>
