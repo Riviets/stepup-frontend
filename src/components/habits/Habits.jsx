@@ -16,15 +16,17 @@ export default function Habits() {
   const { t } = useTranslation();
   const [defaultHabitsVisible, setDefaultHabitsVisible] = useState(false);
   const [userHabitsVisible, setUserHabitsVisible] = useState(false);
+  const [suggestedHabitsVisible, setSuggestedHabitsVisible] = useState(false);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [selectedHabitId, setSelectedHabitId] = useState(0);
+  const [selectedSuggestionId, setSelectedSuggestionId] = useState(0);
   const navigate = useNavigate();
 
   const { data: defaultHabits, refetch: refetchDefaultHabits } = useFetch(habitsService.getDefaultHabits);
   const { data: userHabits, refetch: refetchUserHabits } = useFetch(habitsService.getUserHabits);
+  const { data: suggestedHabits, refetch: refetchSuggestedHabits } = useFetch(habitsService.getSuggestedHabits);
 
   async function addHabitToTracker(habitId) {
     try {
@@ -41,14 +43,30 @@ export default function Habits() {
     }
   }
 
-  async function handleDelete() {
+  async function handleDeleteHabit() {
     try {
-      const response = await habitsService.deleteUserHabit(selectedHabitId);
+      const response = await habitsService.deleteUserHabit(selectedSuggestionId);
       setIsConfirmModalOpen(false);
       refetchUserHabits();
     } catch (error) {
       setMessage(error.response?.data?.message || t('habits.serverError'));
       setIsMessageModalOpen(true);
+    }
+  }
+
+  async function handleRejectSuggestion() {
+    try {
+      setLoading(true);
+      const response = await habitsServiceconstructive.respondToSuggestedHabit(selectedSuggestionId, false);
+      setMessage(t('habits.suggestionRejected'));
+      setIsMessageModalOpen(true);
+      setIsConfirmModalOpen(false);
+      refetchSuggestedHabits();
+    } catch (error) {
+      setMessage(error.response?.data?.message || t('habits.serverError'));
+      setIsMessageModalOpen(true);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -58,7 +76,7 @@ export default function Habits() {
 
   return (
     <div>
-      {defaultHabits && userHabits && !loading ? (
+      {defaultHabits && userHabits && suggestedHabits && !loading ? (
         <div className="py-10 pb-[170px] min-h-screen">
           <UserStats />
           <div className="max-w-[350px] mx-auto border-3 border-[#483D61] rounded-md bg-[#D9D9D9] mb-10">
@@ -89,7 +107,8 @@ export default function Habits() {
                 ))}
               </ul>}
           </div>
-          <div className="max-w-[350px] mx-auto border-3 border-[#483D61] rounded-md bg-[#D9D9D9]">
+          
+          <div className="max-w-[350px] mx-auto border-3 border-[#483D61] rounded-md bg-[#D9D9D9] mb-10">
             <div onClick={() => { setUserHabitsVisible(!userHabitsVisible); }} className="flex justify-between items-center px-[25px] py-[10px] text-xl font-bold">
               <p>{t('habits.custom')}</p>
               <img 
@@ -116,10 +135,10 @@ export default function Habits() {
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <div onClick={() => { setSelectedHabitId(habit.id); navigate(`/habits/edit/${habit.id}`); }} className="habit-btn">
+                        <div onClick={() => { setSelectedSuggestionId(habit.id); navigate(`/habits/edit/${habit.id}`); }} className="habit-btn">
                           <button>✎</button>
                         </div>
-                        <div onClick={() => { setSelectedHabitId(habit.id); setIsConfirmModalOpen(true); }} className="habit-btn">
+                        <div onClick={() => { setSelectedSuggestionId(habit.id); setIsConfirmModalOpen(true); }} className="habit-btn">
                           <button>🗑</button>
                         </div>
                       </div>
@@ -129,9 +148,41 @@ export default function Habits() {
               </div>
             }
           </div>
+          <div className="max-w-[350px] mx-auto border-3 border-[#483D61] rounded-md bg-[#D9D9D9] mb-10">
+            <div onClick={() => { setSuggestedHabitsVisible(!suggestedHabitsVisible); }} className="flex justify-between items-center px-[25px] py-[10px] text-xl font-bold">
+              <p>{t('habits.suggested')}</p>
+              <img 
+                src={arrow} 
+                alt="Show/Hide" 
+                className={`transition-transform duration-300 ${suggestedHabitsVisible ? 'rotate-180' : ''}`} 
+              />
+            </div>
+            {suggestedHabitsVisible &&
+              <div className="flex flex-col gap-7 px-[25px] pb-[30px] pt-5 border-t-3">
+                {suggestedHabits.length === 0 ? (
+                  <p className="text-xl font-semibold text-center">{t('habits.noSuggestions')}</p>
+                ) : (
+                  suggestedHabits.map((suggestion) => (
+                    <li key={suggestion.id} className="flex items-start gap-6">
+                      <div className="habit-btn">
+                        <button onClick={() => { addHabitToTracker(suggestion.habit_id); }} className="font-bold text-xl w-[30px]">+</button>
+                      </div>
+                      <div className="flex flex-col gap-2 mr-auto">
+                        <p className="text-lg font-medium">{suggestion.name} ({t('habits.from')} {suggestion.suggested_by_username})</p>
+                        <div className="flex gap-2 items-center max-w-[130px] justify-between">
+                          <div className="stats">+{suggestion.xp}
+                            <img className="min-w-[30px]" src={xp} alt="xp" />
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  ))
+                )}
+              </div>}
+          </div>
           <Navigation />
           {isMessageModalOpen && <MessageModal message={message} onClose={() => { setIsMessageModalOpen(false); }} />}
-          {isConfirmModalOpen && <ConfirmModal message={t('habits.permanentlyDelete')} onClose={() => { setIsConfirmModalOpen(false); }} onConfirm={handleDelete} />}
+          {isConfirmModalOpen && <ConfirmModal message={t('habits.permanentlyDelete')} onClose={() => { setIsConfirmModalOpen(false); }} onConfirm={suggestedHabitsVisible ? handleRejectSuggestion : handleDeleteHabit} />}
         </div>
       ) : (
         <div className="flex items-center justify-center min-h-screen w-full">

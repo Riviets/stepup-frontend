@@ -135,7 +135,9 @@ const resources = {
         empty: 'Тут порожньо...',
         habitAddedToTracker: 'Звичку додано до трекера!',
         permanentlyDelete: 'назавжди видалити цю звичку?',
-        serverError: 'Помилка з\'єднання з сервером'
+        serverError: 'Помилка з\'єднання з сервером',
+        suggested: 'Запропоновані',
+        from: 'Від'
       },
       addHabit: {
         title: 'Додати звичку',
@@ -352,7 +354,9 @@ const resources = {
         empty: 'So empty here...',
         habitAddedToTracker: 'Habit was added to the tracker!',
         permanentlyDelete: 'Permanently delete this habit?',
-        serverError: 'Server connection error'
+        serverError: 'Server connection error',
+        suggested: 'Suggested',
+        from: "From"
       },
       addHabit: {
         title: 'Add Habit',
