@@ -1,7 +1,28 @@
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import ConfirmModal from "../layout/ConfirmModal";
+import MessageModal from "../layout/MessageModal";
+import { friendsService } from "../../services/friendsService";
 
-export default function FriendsList({ friends }) {
+export default function FriendsList({ friends, refetchFriends }) {
   const { t } = useTranslation();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isMessageModalVisible, setIsMessageModalVisible] = useState(false);
+  const [message, setMessage] = useState('');
+  const [selectedFriendId, setSelectedFriendId] = useState(null);
+
+  async function handleDelete() {
+    try {
+      const response = await friendsService.deleteFriend(selectedFriendId);
+      setMessage(response.data.message);
+      refetchFriends();
+    } catch (error) {
+      setMessage(`Error: ${error.response?.data?.message || error.message}`);
+    } finally {
+      setIsMessageModalVisible(true);
+      setIsConfirmModalOpen(false);
+    }
+  }
 
   return (
     <div>
@@ -20,7 +41,15 @@ export default function FriendsList({ friends }) {
                   <p className="text-sm">{friend.email}</p>
                 </div>
                 <div className="habit-btn">
-                  <button className="text-2xl font-bold -mt-[3px]">-</button>
+                  <button
+                    onClick={() => {
+                      setIsConfirmModalOpen(true);
+                      setSelectedFriendId(friend.id);
+                    }}
+                    className="text-2xl font-bold -mt-[3px]"
+                  >
+                    -
+                  </button>
                 </div>
               </div>
               <button className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg">
@@ -29,6 +58,19 @@ export default function FriendsList({ friends }) {
             </li>
           ))}
         </ul>
+      )}
+      {isConfirmModalOpen && (
+        <ConfirmModal
+          onClose={() => setIsConfirmModalOpen(false)}
+          onConfirm={handleDelete}
+          message={t('friendsList.deleteFriend')+'?'}
+        />
+      )}
+      {isMessageModalVisible && (
+        <MessageModal
+          onClose={() => setIsMessageModalVisible(false)}
+          message={message}
+        />
       )}
     </div>
   );

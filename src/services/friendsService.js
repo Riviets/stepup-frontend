@@ -70,5 +70,20 @@ export const friendsService = {
         catch(error){
             throw error
         }
-    }
+    },
+    deleteFriend: async (friendId) => {
+        try {
+          const token = localStorage.getItem('accessToken');
+          const response = await axios.delete(`${API_URL}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json', 
+            },
+            data: { friend_id: friendId } 
+          });
+          return response; 
+        } catch (error) {
+          throw error;
+        }
+      }
 }

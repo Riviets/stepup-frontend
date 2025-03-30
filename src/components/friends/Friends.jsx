@@ -47,7 +47,7 @@ export default function Friends() {
             {requestsVisible && <FriendRequests refetchFriends={refetchFriends} />}
           </div>
           <p className="text-2xl text-center font-bold mb-5">{t('friends.yourFriends')}</p>
-          <FriendsList friends={friends} />
+          <FriendsList friends={friends} refetchFriends={refetchFriends}/>
         </div>
       </div>
       <Navigation />

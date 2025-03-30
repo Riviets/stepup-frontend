@@ -22,8 +22,7 @@ const resources = {
         emptyCards: 'Тут порожньо...',
         achievements: 'Досягнення',
         level: 'Рівень',
-        logoutMessage: 'вийти з аккаунту?',
-        friends: 'Друзі'
+        logoutMessage: 'вийти з аккаунту?'
       },
       achievements: {
         customer: {
@@ -204,7 +203,8 @@ const resources = {
         noFriends: 'Немає друзів'
       },
       friendsList: {
-        proposeHabit: 'Запропонувати звичку'
+        proposeHabit: 'Запропонувати звичку',
+        deleteFriend: 'видалити цього користувача зі списку друзів'
       },
       findFriendsModal: {
         title: 'Знайти нових друзів!',
@@ -238,8 +238,7 @@ const resources = {
         emptyCards: 'So Empty Here...',
         achievements: 'Achievements',
         level: 'Level',
-        logoutMessage: 'logout?',
-        friends: 'Friends'
+        logoutMessage: 'logout?'
       },
       achievements: {
         customer: {
@@ -420,7 +419,8 @@ const resources = {
         noFriends: 'No friends'
       },
       friendsList: {
-        proposeHabit: 'Propose habit'
+        proposeHabit: 'Propose habit',
+        deleteFriend: 'delete this user from your friends list'
       },
       findFriendsModal: {
         title: 'Find new friends!',

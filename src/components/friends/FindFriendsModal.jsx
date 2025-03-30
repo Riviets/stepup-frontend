@@ -31,7 +31,6 @@ export default function FindFriendsModal({ onClose }) {
   async function handleSendRequest(friendId) {
     try {
       const response = await friendsService.sendFriendshipRequest(friendId);
-      console.log(response.data);
       setModalMessage(t('findFriendsModal.requestSent'));
     } catch (error) {
       setModalMessage(error.response?.data?.message || t('findFriendsModal.serverError'));
