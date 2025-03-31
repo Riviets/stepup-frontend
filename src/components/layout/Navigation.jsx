@@ -10,7 +10,7 @@ export default function Navigation() {
   const { t } = useTranslation();
 
   return (
-    <nav className="fixed bottom-0 bg-[#3C2F51] p-[20px] min-w-screen rounded-t-xl">
+    <nav className="fixed bottom-0 bg-[#3C2F51] p-[20px] min-w-screen rounded-t-xl z-0">
       <ul className="flex justify-between gap-2 max-w-[500px] mx-auto">
         <li className="nav-item">
           <Link className="flex flex-col items-center justify-between gap-2" to="/habits">

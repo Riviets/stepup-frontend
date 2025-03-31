@@ -3,8 +3,9 @@ import coins from '../../assets/coins.svg';
 import pfpDefault from '../../assets/pfp-default.png';
 import { useTranslation } from "react-i18next";
 import { getAvatarUrl } from '../../lib/utils';
+import AvatarsModal from './AvatarsModal';
 
-export default function UserData({ userData, handleOpenAchievementModal, handleOpenEditModal }) {
+export default function UserData({ userData, refetchUserData, handleOpenAchievementModal, handleOpenEditModal, isAvatarsModalOpen, setIsAvatarModalOpen, closeAvatarsModal}) {
   const { t } = useTranslation();
 
   const avatarUrl = getAvatarUrl(userData)
@@ -16,6 +17,7 @@ export default function UserData({ userData, handleOpenAchievementModal, handleO
         src={avatarUrl}
         alt="User pfp"
         onError={(e) => { e.target.src = pfpDefault}}
+        onClick={()=>{setIsAvatarModalOpen(true)}}
       />
       <div>
         <div className="flex items-start justify-between">
@@ -51,6 +53,7 @@ export default function UserData({ userData, handleOpenAchievementModal, handleO
           </div>
         </div>
       </div>
+      {isAvatarsModalOpen && <AvatarsModal onClose={closeAvatarsModal} refetchUserData={refetchUserData}/>}
     </div>
   );
 }

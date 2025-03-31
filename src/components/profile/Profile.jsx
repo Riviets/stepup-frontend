@@ -30,7 +30,9 @@ export default function Profile() {
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [isAchievementModalVisible, setIsAchievementModalVisible] = useState(false);
+  const [isAchievementModalVisible, setIsAchievementModalVisible] = useState(false)
+  const [isAvatarsModalOpen, setIsAvatarModalOpen] = useState(false)
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export default function Profile() {
        {userData && userCards && userPuzzles && userPuzzleSets ? (
         <>
             <div className="pt-[50px] pb-[150px] max-w-[330px] mx-auto">
-                <UserData userData={userData} handleOpenAchievementModal={() => setIsAchievementModalVisible(true)} handleOpenEditModal={() => setIsEditModalOpen(true)}/>
+                <UserData userData={userData} refetchUserData={refetchUserData} handleOpenAchievementModal={() => setIsAchievementModalVisible(true)} handleOpenEditModal={() => setIsEditModalOpen(true)} isAvatarsModalOpen={isAvatarsModalOpen} setIsAvatarModalOpen={setIsAvatarModalOpen} closeAvatarsModal={()=>{setIsAvatarModalOpen(false)}}/>
                 <UserStats userCards={userCards} userPuzzles={userPuzzles} completedSets={completedSets} handleOpenPuzzlesModal={() => setIsPuzzlesModalOpen(true)}/>
                 <Link to={'/friends'} className="flex items-center justify-center gap-3 bg-[#D9D9D9] mb-6 rounded-md border-2 border-[#292139] py-1 text-xl font-bold tracking-wider">
                 <p>{t('profile.friends')}</p>

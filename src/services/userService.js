@@ -64,5 +64,35 @@ export const userService = {
         catch(error){
             throw error
         }
+    },
+
+    getAvatars: async ()=>{
+        try{
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.get(`${API_URL}/avatars`,{
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            return response
+        }
+        catch(error){
+            throw error
+        }
+    },
+
+    setAvatar: async (avatarId)=>{
+        try{
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.patch(`${API_URL}/me/avatar`, {avatar_id: avatarId}, {
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            return response
+        }
+        catch(error){
+            throw error
+        }
     }
 }
