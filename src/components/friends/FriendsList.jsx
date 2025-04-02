@@ -5,6 +5,7 @@ import MessageModal from "../layout/MessageModal"
 import { friendsService } from "../../services/friendsService"
 import pfpDefault from '../../assets/pfp-default.png'
 import { getAvatarUrl } from "../../lib/utils"
+import SuggestHabitModal from "./SuggestHabitModal"
 
 export default function FriendsList({ friends, refetchFriends }) {
   const { t } = useTranslation()
@@ -12,6 +13,8 @@ export default function FriendsList({ friends, refetchFriends }) {
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
   const [message, setMessage] = useState('')
   const [selectedFriendId, setSelectedFriendId] = useState(null)
+  const [isSuggestModalVisible, setIsSuggestModalVisible] = useState(false)
+  const [selectedFriendName, setSelectedFriendName] = useState(null)
 
   async function handleDelete() {
     try {
@@ -62,7 +65,7 @@ export default function FriendsList({ friends, refetchFriends }) {
                   </button>
                 </div>
               </div>
-              <button className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg">
+              <button onClick={()=>{setIsSuggestModalVisible(true); setSelectedFriendName(friend?.username)}} className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg">
                 {t('friendsList.proposeHabit')}
               </button>
             </li>
@@ -82,6 +85,11 @@ export default function FriendsList({ friends, refetchFriends }) {
           message={message}
         />
       )}
+      {
+        isSuggestModalVisible && (
+          <SuggestHabitModal onClose={()=>(setIsSuggestModalVisible(false))} friendName={selectedFriendName}/>
+        )
+      }
     </div>
   );
 }

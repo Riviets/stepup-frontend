@@ -427,7 +427,7 @@ const resources = {
         noFriends: 'No friends'
       },
       friendsList: {
-        proposeHabit: 'Propose habit',
+        proposeHabit: 'Suggest habit',
         deleteFriend: 'delete this user from your friends list'
       },
       findFriendsModal: {
