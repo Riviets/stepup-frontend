@@ -12,6 +12,7 @@ import arrow from "../../assets/arrow-bottom.png"
 import DefaultHabitsList from "./DefaultHabitsList";
 import UserHabitsList from "./UserHabitsList";
 import xp from "../../assets/xp.svg"
+import { useNavigate } from "react-router-dom";
 
 export default function Habits() {
   const { t } = useTranslation();
@@ -27,6 +28,8 @@ export default function Habits() {
   const { data: defaultHabits } = useFetch(habitsService.getDefaultHabits);
   const { data: userHabits, refetch: refetchUserHabits } = useFetch(habitsService.getUserHabits);
   const {data: suggestedHabits, refetch: refetchSuggestedHabits} = useFetch(habitsService.getSuggestedHabits)
+
+  const navigate = useNavigate()
 
   async function addHabitToTracker(habitId) {
     try {
@@ -51,17 +54,20 @@ export default function Habits() {
     } catch (error) {
       setMessage(error.response?.data?.message || t('habits.serverError'));
       setIsMessageModalOpen(true);
+      console.log(error.response.data.message);
+      
     }
   }
 
   async function handleAcceptSuggestedHabit(habitId, isAccepted){
     try{
-      const response = habitsService.respondToSuggestedHabit(habitId, isAccepted)
+      const response = await habitsService.respondToSuggestedHabit(habitId, isAccepted)
       console.log(response.data)
       refetchSuggestedHabits()
+      refetchUserHabits()
     }
     catch(error){
-      console.log(error);
+      console.log(error.response.data.message);
     }
   }
 
@@ -78,11 +84,14 @@ export default function Habits() {
           <UserHabitsList habits={userHabits} isVisible={userHabitsVisible} setIsVisible={setUserHabitsVisible} handleAddHabit={handleAddHabit} setSelectedHabitId={setSelectedHabitId} setIsConfirmModalOpen={setIsConfirmModalOpen} addHabitToTracker={addHabitToTracker}/>
           <div className="max-w-[350px] mx-auto border-3 border-[#483D61] rounded-md bg-[#D9D9D9] mb-10">
                       <div onClick={() => { setSuggestedHabitsVisible(!suggestedHabitsVisible); }} className="flex justify-between items-center px-[25px] py-[10px] text-xl font-bold">
-                          <p>{t('habits.suggested')}</p>
+                          <div className="flex gap-2 items-center">
+                            <p>{t('habits.suggested')}</p>
+                            {suggestedHabits?.length === 0 ? <></> : <p className="flex items-center justify-center text-sm text-white bg-[#563897] rounded-full w-6 h-6">{suggestedHabits?.length}</p>}
+                          </div>
                           <img 
                           src={arrow} 
                           alt="Show/Hide" 
-                          className={`transition-transform duration-300 ${defaultHabitsVisible ? 'rotate-180' : ''}`} 
+                          className={`transition-transform duration-300 ${suggestedHabitsVisible ? 'rotate-180' : ''}`} 
                           />
                       </div>
                       {suggestedHabitsVisible &&

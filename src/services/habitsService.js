@@ -146,7 +146,7 @@ export const habitsService = {
                     }
                 }
             )
-            return response.data
+            return response
         }
         catch(error){
             throw error

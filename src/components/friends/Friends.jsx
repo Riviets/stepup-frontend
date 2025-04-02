@@ -40,7 +40,9 @@ export default function Friends() {
                 className="mb-5 bg-white rounded-md border-2 border-[#292139] px-5 pt-3"
               >
                 <div className="flex justify-between items-center text-xl font-bold mb-3">
-                  <p>{t('friends.friendRequests')}</p>
+                  <div>
+                    <p>{t('friends.friendRequests')}</p>
+                  </div>
                   <img
                     src={arrow}
                     alt="Show/Hide"
