@@ -14,7 +14,7 @@ export default function FriendsList({ friends, refetchFriends }) {
   const [message, setMessage] = useState('')
   const [selectedFriendId, setSelectedFriendId] = useState(null)
   const [isSuggestModalVisible, setIsSuggestModalVisible] = useState(false)
-  const [selectedFriendName, setSelectedFriendName] = useState(null)
+  const [selectedFriend, setSelectedFriend] = useState(null)
 
   async function handleDelete() {
     try {
@@ -57,7 +57,7 @@ export default function FriendsList({ friends, refetchFriends }) {
                   <button
                     onClick={() => {
                       setIsConfirmModalOpen(true);
-                      setSelectedFriendId(friend.id);
+                      setSelectedFriend(friend)
                     }}
                     className="text-2xl font-bold -mt-[3px]"
                   >
@@ -65,7 +65,7 @@ export default function FriendsList({ friends, refetchFriends }) {
                   </button>
                 </div>
               </div>
-              <button onClick={()=>{setIsSuggestModalVisible(true); setSelectedFriendName(friend?.username)}} className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg">
+              <button onClick={()=>{setIsSuggestModalVisible(true); setSelectedFriend(friend)}} className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg">
                 {t('friendsList.proposeHabit')}
               </button>
             </li>
@@ -87,7 +87,7 @@ export default function FriendsList({ friends, refetchFriends }) {
       )}
       {
         isSuggestModalVisible && (
-          <SuggestHabitModal onClose={()=>(setIsSuggestModalVisible(false))} friendName={selectedFriendName}/>
+          <SuggestHabitModal onClose={()=>(setIsSuggestModalVisible(false))} friend={selectedFriend}/>
         )
       }
     </div>

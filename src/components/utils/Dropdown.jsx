@@ -11,8 +11,8 @@ export function Dropdown({trigger, children, isSent, handleSelect}){
     }
 
     useEffect(()=>{
-        if(isSent){
-            handleSelect(selectedItem.id)
+        if(isSent){            
+            handleSelect(selectedItem?.id)            
         }
     }, [isSent])
 
@@ -43,6 +43,7 @@ export function Dropdown({trigger, children, isSent, handleSelect}){
 }
 
 export function DropdownItem({children, onClick, key, value=null}){
+
     return(
         <li key={key} onClick={()=>{onClick(children)}} className="w-full bg-white text-bold px-8 py-4 text-lg bg-gray-300 rounded-sm tracking-wider">
             {value === null

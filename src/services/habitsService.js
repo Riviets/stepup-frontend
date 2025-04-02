@@ -110,5 +110,46 @@ export const habitsService = {
         } catch (error) {
             throw error
         }
+    },
+
+    suggestHabit: async (friendId, habitId) =>{
+        try{
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.post(`${API_URL}/suggest`,
+            {
+                friend_id: friendId,
+                habit_id: habitId
+            }, 
+            {
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+            return response
+        }
+        catch(error){
+            throw error
+        }
+    },
+
+    respondToSuggestedHabit: async (suggestionId, isAccepted) =>{
+        try{
+            const token = localStorage.getItem('accessToken')
+            const response = await axios.patch(`${API_URL}/suggested/respond`,
+                {
+                    suggestion_id: suggestionId,
+                    accept: isAccepted
+                },
+                {
+                    headers:{
+                        'Authorization': `Bearer ${token}`,
+                    }
+                }
+            )
+            return response.data
+        }
+        catch(error){
+            throw error
+        }
     }
 }
