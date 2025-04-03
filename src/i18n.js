@@ -221,6 +221,22 @@ const resources = {
       },
       friendRequests: {
         noRequests: 'Поки що немає запитів...'
+      },
+      avatarsModal: {
+        title: 'Виберіть аватар',
+        avatarAlt: 'Аватар',
+        closeAlt: 'Закрити модальне вікно аватарів'
+      },
+      suggestHabitModal: {
+        title: 'Запропонувати {{username}} звичку',
+        select: 'Виберіть звичку',
+        send: 'Надіслати',
+        closeAlt: 'Закрити модальне вікно пропозиції звички',
+        success: 'Звичку успішно запропоновано',
+        errors: {
+          habitRequired: 'Будь ласка, виберіть звичку',
+          alreadySuggested: 'Ви вже запропонували цю звичку'
+        }
       }
     }
   },
@@ -441,6 +457,22 @@ const resources = {
       },
       friendRequests: {
         noRequests: 'No requests yet...'
+      },
+      avatarsModal: {
+        title: 'Select an avatar',
+        avatarAlt: 'Avatar',
+        closeAlt: 'Close avatars modal'
+      },
+      suggestHabitModal: {
+        title: 'Suggest {{username}} a habit',
+        select: 'Select a habit',
+        send: 'Send',
+        closeAlt: 'Close suggest habit modal',
+        success: 'Habit successfully suggested',
+        errors: {
+          habitRequired: 'Please select a habit',
+          alreadySuggested: 'You already suggested this habit'
+        }
       }
     }
   }

@@ -97,7 +97,7 @@ export default function Habits() {
                       {suggestedHabitsVisible &&
                           <ul className="flex flex-col gap-7 px-[25px] pb-[30px] pt-5 border-t-3">
                           {suggestedHabits?.length === 0
-                          ? (<p className="text-lg">So Empty Here...</p>)
+                          ? (<p className="text-lg">{t('habits.empty')}</p>)
                         : 
                         <>
                         {suggestedHabits?.map((habit) => (

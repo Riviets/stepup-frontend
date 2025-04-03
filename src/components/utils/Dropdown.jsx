@@ -34,7 +34,7 @@ export function DropdownItem({ children, onClick, value = null }) {
   return (
     <li
       onClick={() => onClick(children)}
-      className="w-full bg-white text-bold px-8 py-4 text-lg bg-gray-300 rounded-sm tracking-wider"
+      className="w-full bg-white text-bold px-8 py-4 text-lg bg-gray-300 tracking-wider"
     >
       {value === null ? children : value}
     </li>
