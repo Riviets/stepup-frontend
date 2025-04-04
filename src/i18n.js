@@ -204,7 +204,8 @@ const resources = {
         findFriends: 'Знайти друзів 🔍',
         friendRequests: 'Запити на дружбу',
         yourFriends: 'Ваші друзі',
-        noFriends: 'Немає друзів'
+        noFriends: 'Немає друзів',
+        close: 'Закрити' 
       },
       friendsList: {
         proposeHabit: 'Запропонувати звичку',
@@ -440,7 +441,8 @@ const resources = {
         findFriends: 'Find friends 🔍',
         friendRequests: 'Friend requests',
         yourFriends: 'Your Friends',
-        noFriends: 'No friends'
+        noFriends: 'No friends',
+        close: 'Close'
       },
       friendsList: {
         proposeHabit: 'Suggest habit',

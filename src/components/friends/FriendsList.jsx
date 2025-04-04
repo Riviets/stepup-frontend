@@ -6,6 +6,7 @@ import { friendsService } from "../../services/friendsService"
 import pfpDefault from '../../assets/pfp-default.png'
 import { getAvatarUrl } from "../../lib/utils"
 import SuggestHabitModal from "./SuggestHabitModal"
+import UserDetailsModal from "./UserDetailsModal"
 
 export default function FriendsList({ friends, refetchFriends }) {
   const { t } = useTranslation()
@@ -15,6 +16,7 @@ export default function FriendsList({ friends, refetchFriends }) {
   const [selectedFriendId, setSelectedFriendId] = useState(null)
   const [isSuggestModalVisible, setIsSuggestModalVisible] = useState(false)
   const [selectedFriend, setSelectedFriend] = useState(null)
+  const [userDetailsModalVisible, setUserDetailsModalVisible] = useState(false)
 
   async function handleDelete() {
     try {
@@ -42,15 +44,17 @@ export default function FriendsList({ friends, refetchFriends }) {
             >
               <div className="flex justify-between gap-3 flex-wrap w-full items-center">
                 <div className="flex items-center gap-4">
-                  <img
-                    className="border-2 border-[#292139] rounded-lg w-[50px] h-[50px] object-cover shadow-lg"
-                    src={getAvatarUrl(friend)}
-                    alt={`${friend.username}'s avatar`}
-                    onError={(e) => { e.target.src = pfpDefault; }}
-                  />
-                  <div className="flex flex-col">
-                    <p className="text-xl font-bold">{friend.username}</p>
-                    <p className="text-sm">{friend.email}</p>
+                  <div onClick={()=>{setUserDetailsModalVisible(true); setSelectedFriend(friend)}} className="flex gap-3">
+                    <img
+                      className="border-2 border-[#292139] rounded-lg w-[50px] h-[50px] object-cover shadow-lg"
+                      src={getAvatarUrl(friend)}
+                      alt={`${friend.username}'s avatar`}
+                      onError={(e) => { e.target.src = pfpDefault; }}
+                    />
+                    <div className="flex flex-col">
+                      <p className="text-xl font-bold">{friend.username}</p>
+                      <p className="text-sm">{friend.email}</p>
+                    </div>
                   </div>
                 </div>
                 <div className="habit-btn">
@@ -88,6 +92,11 @@ export default function FriendsList({ friends, refetchFriends }) {
       {
         isSuggestModalVisible && (
           <SuggestHabitModal onClose={()=>(setIsSuggestModalVisible(false))} friend={selectedFriend}/>
+        )
+      }
+      {
+        userDetailsModalVisible && (
+          <UserDetailsModal onClose={()=>{setUserDetailsModalVisible(false)}} userData={selectedFriend}/>
         )
       }
     </div>
