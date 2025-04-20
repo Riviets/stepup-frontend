@@ -15,7 +15,9 @@ import Layout from "../layout/Layout";
 
 export default function Shop() {
   const { t } = useTranslation();
-  const { data: cardsData } = useFetch(shopService.getCards);
+  const { data: cardsData, refetch: refetchUserData } = useFetch(
+    shopService.getCards
+  );
   const { data: userCards, refetch: refetchUserCards } = useFetch(
     shopService.getUserCards
   );
@@ -39,6 +41,7 @@ export default function Shop() {
       setMessage(t("shop.purchaseSuccess"));
       setIsMessageModalOpen(true);
       refetchUserCards();
+      refetchUserData();
     } catch (error) {
       let errorMessage = t("shop.purchaseError");
       if (

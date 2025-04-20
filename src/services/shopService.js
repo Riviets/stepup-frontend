@@ -1,68 +1,39 @@
-import axios from 'axios'
-
-const API_URL = 'http://localhost:3000/shop'
+import axiosInstance from "./axiosInstance";
 
 export const shopService = {
-    getCards: async () => {
-        try{
-            const token = localStorage.getItem('accessToken')
-            const response = await axios.get(`${API_URL}/cards`,{
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                }
-            })
-            return response
-        }
-        catch(error){
-            throw error
-        }
-    },
-
-    getUserCards: async () => {
-        try{
-            const token = localStorage.getItem('accessToken')
-            const response = await axios.get(`${API_URL}/my-cards`,{
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                }
-            })
-            return response
-        }
-        catch(error){
-            throw error
-        }
-    },
-
-    purchaseCard: async (cardId) => {
-        try{
-            const token = localStorage.getItem('accessToken')
-            const response = await axios.post(`${API_URL}/purchase`, {cardId}, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                }
-            })
-            return response
-        }
-        catch(error){
-            throw error
-        }
-    },
-    getCardInfoById: async (cardId) => {
-        try{
-            const token = localStorage.getItem('accessToken')
-            const response = await axios.get(`${API_URL}/card/${cardId}`,{
-                headers:{
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                }
-            })
-            return response
-        }
-        catch(error){
-            throw error
-        }
+  getCards: async () => {
+    try {
+      const response = await axiosInstance.get("/shop/cards");
+      return response;
+    } catch (error) {
+      throw error;
     }
-}
+  },
+
+  getUserCards: async () => {
+    try {
+      const response = await axiosInstance.get("/shop/my-cards");
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  purchaseCard: async (cardId) => {
+    try {
+      const response = await axiosInstance.post("/shop/purchase", { cardId });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  getCardInfoById: async (cardId) => {
+    try {
+      const response = await axiosInstance.get(`/shop/card/${cardId}`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+};

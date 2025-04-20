@@ -1,10 +1,10 @@
-import { useTranslation } from "react-i18next";
-
 import habits from "../assets/navigation/habits.png";
 import tracker from "../assets/navigation/tracker.png";
 import shop from "../assets/navigation/shop.png";
 import levels from "../assets/navigation/levels.png";
 import profile from "../assets/navigation/profile.png";
+
+export const API_URL = "http://localhost:3000";
 
 export const eyeOpenedIcon = (
   <svg
