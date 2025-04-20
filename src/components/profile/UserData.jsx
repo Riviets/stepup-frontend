@@ -22,8 +22,8 @@ export default function UserData({ userData, refetchUserData, handleOpenAchievem
       <div>
         <div className="flex items-start justify-between">
           <div>
-            <div className="flex gap-3 items-center">
-              <p className="text-2xl text-white font-bold">{userData?.username}</p>
+            <div className="flex gap-3 items-center flex-wrap">
+              <p className="text-2xl text-white font-bold max-w-[100px] overflow-scroll">{userData?.username}</p>
               <div
                 onClick={handleOpenEditModal}
                 className="flex items-center justify-center bg-[#D9D9D9] border-2 box-border border-[#292139] rounded-sm w-[30px] h-[30px]"

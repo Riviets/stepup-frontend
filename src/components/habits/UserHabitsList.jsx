@@ -25,7 +25,7 @@ export default function UserHabitsList({habits, isVisible, setIsVisible, handleA
           habits.map((habit) => (
             <li key={habit.id} className="flex items-start gap-6">
               <div className="habit-btn">
-                <button onClick={() => { addHabitToTracker(habit.id); }} className="font-bold text-xl">+</button>
+                <button onClick={() => { addHabitToTracker(habit.id); }} className="font-bold text-xl size-5 flex items-center justify-center">+</button>
               </div>
               <div className="flex flex-col gap-2 mr-auto">
                 <p className="text-lg font-medium">{habit.name}</p>

@@ -3,35 +3,65 @@ import { useTranslation } from "react-i18next";
 import close from "../../assets/close.svg";
 import { PUZZLES_IN_SET, MAX_LEVEL, ACHIEVEMENTS } from "../../lib/constants";
 
-export default function AchievementsModal({ onClose, userData, userCards, userPuzzleSets }) {
-    const { t } = useTranslation();
+export default function AchievementsModal({
+  onClose,
+  userData,
+  userCards,
+  userPuzzleSets,
+}) {
+  const { t } = useTranslation();
 
-    return (
-        <div className="flex justify-center items-center fixed inset-0" style={{ backgroundColor: "rgba(0,0,0,0.6)" }}>
-            <div className="bg-[#D9D9D9] py-12 px-6 rounded-lg border-2 border-[#292139] relative w-full max-w-[350px]">
-                <p className="text-center text-2xl font-bold mb-6">{t('profile.achievements')}</p>
-                <ul className="flex flex-col gap-6 h-full max-h-[320px] overflow-scroll">
-                    {ACHIEVEMENTS(t).map((achievement) => {
-                        const isAchieved = achievement.condition(userCards, userPuzzleSets, userData);
-                        return (
-                            <li key={achievement.title} className={`flex items-center justify-between gap-3 border-2 px-5 py-4 rounded-md shadow-lg ${isAchieved ? "bg-yellow-100" : "bg-gray-300"}`}>
-                                <div className="flex flex-col gap-2">
-                                    <p className="font-bold text-xl tracking-widest">{achievement.title}</p>
-                                    <p className="tracking-wider">{achievement.description}</p>
-                                </div>
-                                <div className="flex items-center justify-center border-2 w-full max-w-[55px] h-[55px] rounded-sm bg-white">
-                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M7 21V19H11V15.9C10.1833 15.7167 9.45433 15.371 8.813 14.863C8.17167 14.355 7.70067 13.7173 7.4 12.95C6.15 12.8 5.10433 12.2543 4.263 11.313C3.42167 10.3717 3.00067 9.26733 3 8V7C3 6.45 3.196 5.97933 3.588 5.588C3.98 5.19667 4.45067 5.00067 5 5H7V3H17V5H19C19.55 5 20.021 5.196 20.413 5.588C20.805 5.98 21.0007 6.45067 21 7V8C21 9.26667 20.579 10.371 19.737 11.313C18.895 12.255 17.8493 12.8007 16.6 12.95C16.3 13.7167 15.8293 14.3543 15.188 14.863C14.5467 15.3717 13.8173 15.7173 13 15.9V19H17V21H7ZM7 10.8V7H5V8C5 8.63333 5.18333 9.20433 5.55 9.713C5.91667 10.2217 6.4 10.584 7 10.8ZM17 10.8C17.6 10.5833 18.0833 10.2207 18.45 9.712C18.8167 9.20333 19 8.63267 19 8V7H17V10.8Z" fill={isAchieved ? "#fcba03" : "#A0A0A0"}/>
-                                    </svg>
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul>
-                <button onClick={onClose} className="absolute top-5 right-7">
-                    <img src={close} alt="Close Stats Modal" className="min-w-[15px]" />
-                </button>
-            </div>
-        </div>
-    )
+  return (
+    <div
+      className="flex justify-center items-center fixed inset-0"
+      style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
+    >
+      <div className="bg-[#D9D9D9] py-12 px-6 rounded-lg border-2 border-[#292139] relative w-full max-w-[350px]">
+        <p className="text-center text-2xl font-bold mb-6">
+          {t("profile.achievements")}
+        </p>
+        <ul className="flex flex-col gap-6 h-full max-h-[320px] overflow-scroll">
+          {ACHIEVEMENTS(t).map((achievement) => {
+            const isAchieved = achievement.condition(
+              userCards,
+              userPuzzleSets,
+              userData
+            );
+            return (
+              <li
+                key={achievement.title}
+                className={`flex items-center justify-between gap-3 border-2 px-5 py-4 rounded-md shadow-lg ${
+                  isAchieved ? "bg-yellow-100" : "bg-gray-300"
+                }`}
+              >
+                <div className="flex flex-col gap-2">
+                  <p className="font-bold text-xl tracking-widest">
+                    {achievement.title}
+                  </p>
+                  <p className="tracking-wider">{achievement.description}</p>
+                </div>
+                <div className="flex items-center justify-center border-2 w-full max-w-[55px] h-[55px] rounded-sm bg-white">
+                  <svg
+                    width="40"
+                    height="40"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 21V19H11V15.9C10.1833 15.7167 9.45433 15.371 8.813 14.863C8.17167 14.355 7.70067 13.7173 7.4 12.95C6.15 12.8 5.10433 12.2543 4.263 11.313C3.42167 10.3717 3.00067 9.26733 3 8V7C3 6.45 3.196 5.97933 3.588 5.588C3.98 5.19667 4.45067 5.00067 5 5H7V3H17V5H19C19.55 5 20.021 5.196 20.413 5.588C20.805 5.98 21.0007 6.45067 21 7V8C21 9.26667 20.579 10.371 19.737 11.313C18.895 12.255 17.8493 12.8007 16.6 12.95C16.3 13.7167 15.8293 14.3543 15.188 14.863C14.5467 15.3717 13.8173 15.7173 13 15.9V19H17V21H7ZM7 10.8V7H5V8C5 8.63333 5.18333 9.20433 5.55 9.713C5.91667 10.2217 6.4 10.584 7 10.8ZM17 10.8C17.6 10.5833 18.0833 10.2207 18.45 9.712C18.8167 9.20333 19 8.63267 19 8V7H17V10.8Z"
+                      fill={isAchieved ? "#fcba03" : "#A0A0A0"}
+                    />
+                  </svg>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <button onClick={onClose} className="absolute top-5 right-7">
+          <img src={close} alt="Close Stats Modal" className="min-w-[15px]" />
+        </button>
+      </div>
+    </div>
+  );
 }
