@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { authService } from "../../services/authService";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../profile/LanguageSwitcher";
+import { eyeClosedIcon, eyeOpenedIcon } from "../../constants";
 
 export default function Register() {
   const initialValues = { username: "", email: "", password: "" };
@@ -10,6 +11,7 @@ export default function Register() {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [authError, setAuthError] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const emailRef = useRef(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -121,15 +123,24 @@ export default function Register() {
             <label className="font-semibold text-md" htmlFor="password">
               {t("register.passwordLabel")}
             </label>
-            <input
-              className="input"
-              type="password"
-              value={userData.password}
-              id="password"
-              name="password"
-              onChange={handleChange}
-              placeholder={t("register.passwordPlaceholder")}
-            />
+            <div className="relative">
+              <input
+                className="input"
+                type={isPasswordVisible ? "text" : "password"}
+                value={userData.password}
+                id="password"
+                name="password"
+                onChange={handleChange}
+                placeholder={t("register.passwordPlaceholder")}
+              />
+              <button
+                type="button"
+                className="absolute top-0 right-0 z-10 bg-purple-950 text-white h-full px-3 rounded-tr-md rounded-br-md cursor-pointer w-12"
+                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+              >
+                {isPasswordVisible ? eyeOpenedIcon : eyeClosedIcon}
+              </button>
+            </div>
             <div className="text-red-500 min-h-[1.5rem] max-w-[250px]">
               {formErrors.password}
             </div>

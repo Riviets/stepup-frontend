@@ -1,3 +1,11 @@
+import { useTranslation } from "react-i18next";
+
+import habits from "../assets/navigation/habits.png";
+import tracker from "../assets/navigation/tracker.png";
+import shop from "../assets/navigation/shop.png";
+import levels from "../assets/navigation/levels.png";
+import profile from "../assets/navigation/profile.png";
+
 export const eyeOpenedIcon = (
   <svg
     width="22"
@@ -33,3 +41,31 @@ export const eyeClosedIcon = (
     />
   </svg>
 );
+
+export const navigationItems = [
+  {
+    path: "/habits",
+    icon: habits,
+    labelKey: "navigation.habits",
+  },
+  {
+    path: "/tracker",
+    icon: tracker,
+    labelKey: "navigation.tracker",
+  },
+  {
+    path: "/shop",
+    icon: shop,
+    labelKey: "navigation.shop",
+  },
+  {
+    path: "/levels",
+    icon: levels,
+    labelKey: "navigation.levels",
+  },
+  {
+    path: "/profile",
+    icon: profile,
+    labelKey: "navigation.profile",
+  },
+];

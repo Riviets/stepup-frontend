@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { authService } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { eyeClosedIcon, eyeOpenedIcon } from "../../constants/icons";
+import { eyeClosedIcon, eyeOpenedIcon } from "../../constants";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../profile/LanguageSwitcher";
 
@@ -119,6 +119,7 @@ export default function Login() {
                 placeholder={t("login.passwordPlaceholder")}
               />
               <button
+                type="button"
                 className="absolute top-0 right-0 z-10 bg-purple-950 text-white h-full px-3 rounded-tr-md rounded-br-md cursor-pointer w-12"
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
               >
