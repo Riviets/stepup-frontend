@@ -1,81 +1,69 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { authService } from "../../services/authService";
+import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../profile/LanguageSwitcher";
 import { eyeClosedIcon, eyeOpenedIcon } from "../../constants";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Register() {
-  const initialValues = { username: "", email: "", password: "" };
-  const [userData, setUserData] = useState(initialValues);
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [authError, setAuthError] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const emailRef = useRef(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [authError, setAuthError] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const usernameRef = useRef(null);
+
+  const schema = z.object({
+    username: z
+      .string()
+      .nonempty(t("register.errors.usernameRequired"))
+      .min(3, t("register.errors.usernameTooShort"))
+      .max(16, t("register.errors.usernameTooLong")),
+    email: z.string().email(t("register.errors.invalidEmail")),
+    password: z.string().min(6, t("register.errors.passwordTooShort")),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, touchedFields },
+    clearErrors,
+    watch,
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: { username: "", email: "", password: "" },
+    mode: "onChange",
+  });
+
+  // Watch the username value to clear errors when it changes
+  const username = watch("username");
 
   useEffect(() => {
-    emailRef.current?.focus();
+    // Focus on username field when component mounts
+    if (usernameRef.current) {
+      usernameRef.current.focus();
+    }
   }, []);
 
+  // Clear username error when user types
   useEffect(() => {
-    async function registerUser() {
-      if (isSubmit && Object.keys(formErrors).length === 0) {
-        try {
-          const response = await authService.registerUser(userData);
-          const { token } = response.data;
-          localStorage.setItem("accessToken", token);
-          navigate("/profile");
-        } catch (err) {
-          setAuthError(t("register.errors.authError"));
-          setIsSubmit(false);
-        }
-      }
+    if (username && errors.username) {
+      clearErrors("username");
     }
-    registerUser();
-  }, [isSubmit, formErrors, t]);
+  }, [username, errors.username, clearErrors]);
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setUserData({ ...userData, [name]: value });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const errors = validate(userData);
-    setAuthError("");
-    setFormErrors(errors);
-    setIsSubmit(true);
-  }
-
-  function validate(values) {
-    const errors = {};
-    const { username, email, password } = values;
-
-    if (!username) {
-      errors.username = t("register.errors.usernameRequired");
-    } else if (username.length < 3) {
-      errors.username = t("register.errors.usernameTooShort");
-    } else if (username.length > 16) {
-      errors.username = t("register.errors.usernameTooLong");
+  const onSubmit = async (data) => {
+    try {
+      const response = await authService.registerUser(data);
+      const { token } = response.data;
+      localStorage.setItem("accessToken", token);
+      navigate("/profile");
+    } catch (err) {
+      setAuthError(t("register.errors.authError"));
     }
-
-    if (!email) {
-      errors.email = t("register.errors.emailRequired");
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errors.email = t("register.errors.emailInvalid");
-    }
-
-    if (!password) {
-      errors.password = t("register.errors.passwordRequired");
-    } else if (password.length < 6) {
-      errors.password = t("register.errors.passwordTooShort");
-    }
-
-    return errors;
-  }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -83,22 +71,24 @@ export default function Register() {
         <p className="text-center mb-10 text-3xl font-bold">
           {t("register.title")}
         </p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <label className="font-semibold text-md" htmlFor="username">
               {t("register.usernameLabel")}
             </label>
             <input
+              {...register("username")}
               className="input"
               type="text"
-              value={userData.username}
               id="username"
-              name="username"
-              onChange={handleChange}
               placeholder={t("register.usernamePlaceholder")}
+              ref={(e) => {
+                register("username").ref(e);
+                usernameRef.current = e;
+              }}
             />
             <div className="text-red-500 min-h-[1.5rem] max-w-[250px]">
-              {formErrors.username}
+              {touchedFields.username && errors.username?.message}
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -106,17 +96,14 @@ export default function Register() {
               {t("register.emailLabel")}
             </label>
             <input
+              {...register("email")}
               className="input"
               type="email"
-              value={userData.email}
               id="email"
-              name="email"
-              onChange={handleChange}
               placeholder={t("register.emailPlaceholder")}
-              ref={emailRef}
             />
             <div className="text-red-500 min-h-[1.5rem] max-w-[250px]">
-              {formErrors.email}
+              {errors.email?.message}
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -125,12 +112,10 @@ export default function Register() {
             </label>
             <div className="relative">
               <input
+                {...register("password")}
                 className="input"
                 type={isPasswordVisible ? "text" : "password"}
-                value={userData.password}
                 id="password"
-                name="password"
-                onChange={handleChange}
                 placeholder={t("register.passwordPlaceholder")}
               />
               <button
@@ -142,12 +127,13 @@ export default function Register() {
               </button>
             </div>
             <div className="text-red-500 min-h-[1.5rem] max-w-[250px]">
-              {formErrors.password}
+              {errors.password?.message}
             </div>
           </div>
           {authError && <div className="text-red-500">{authError}</div>}
           <button
             type="submit"
+            disabled={isSubmitting}
             className="btn mb-5 mt-4 bg-purple-600 hover:bg-purple-700 transition duration-300 border-purple-800"
           >
             {t("register.submit")}

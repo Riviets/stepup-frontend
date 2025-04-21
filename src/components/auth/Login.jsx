@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { authService } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -9,16 +9,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const schema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
-
 export default function Login() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [authError, setAuthError] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const schema = z.object({
+    email: z.string().email(t("login.errors.invalidEmail")),
+    password: z.string().min(8, t("login.errors.passwordTooShort")),
+  });
 
   const {
     register,
@@ -81,7 +81,7 @@ export default function Login() {
             <div className="relative">
               <input
                 {...register("password")}
-                className="input w-full"
+                className="input"
                 type={isPasswordVisible ? "text" : "password"}
                 id="password"
                 placeholder={t("login.passwordPlaceholder")}
