@@ -1,80 +1,53 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { authService } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { eyeClosedIcon, eyeOpenedIcon } from "../../constants";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../profile/LanguageSwitcher";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
 
 export default function Login() {
-  const initialValues = { email: "", password: "" };
-  const [userData, setUserData] = useState(initialValues);
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [authError, setAuthError] = useState("");
-  const emailRef = useRef(null);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [authError, setAuthError] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setFocus,
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: { email: "", password: "" },
+  });
 
   useEffect(() => {
-    emailRef.current.focus();
-  }, []);
+    setFocus("email");
+  }, [setFocus]);
 
-  useEffect(() => {
-    async function authenticate() {
-      if (isSubmit && Object.keys(formErrors).length === 0) {
-        try {
-          const response = await authService.loginUser(userData);
-          const { token } = response;
-          localStorage.setItem("accessToken", token);
-          navigate("/profile");
-        } catch (err) {
-          if (err.response && err.response.status === 401) {
-            setAuthError(t("login.errors.invalidCredentials"));
-          } else {
-            setAuthError(t("login.errors.authError"));
-          }
-          setIsSubmit(false);
-        }
+  const onSubmit = async (data) => {
+    try {
+      const response = await authService.loginUser(data);
+      const { token } = response;
+      localStorage.setItem("accessToken", token);
+      navigate("/profile");
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        setAuthError(t("login.errors.invalidCredentials"));
+      } else {
+        setAuthError(t("login.errors.authError"));
       }
     }
-    authenticate();
-  }, [isSubmit, formErrors, t]);
-
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setUserData({ ...userData, [name]: value });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const errors = validate(userData);
-    setAuthError("");
-    setFormErrors(errors);
-    setIsSubmit(true);
-  }
-
-  function validate(values) {
-    const errors = {};
-    const { email, password } = values;
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!email) {
-      errors.email = t("login.errors.emailRequired");
-    } else if (!emailRegex.test(email)) {
-      errors.email = t("login.errors.emailInvalid");
-    }
-
-    if (!password) {
-      errors.password = t("login.errors.passwordRequired");
-    } else if (password.length < 6) {
-      errors.password = t("login.errors.passwordTooShort");
-    }
-
-    return errors;
-  }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -85,23 +58,20 @@ export default function Login() {
         <p className="text-center mb-10 text-3xl font-bold">
           {t("login.title")}
         </p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <label className="font-semibold text-md" htmlFor="email">
               {t("login.emailLabel")}
             </label>
             <input
+              {...register("email")}
               className="input"
-              type="email"
-              value={userData.email}
+              type="text"
               id="email"
-              name="email"
-              onChange={handleChange}
               placeholder={t("login.emailPlaceholder")}
-              ref={emailRef}
             />
             <div className="text-red-500 min-h-[1.5rem] max-w-[250px]">
-              {formErrors.email}
+              {errors.email?.message}
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -110,12 +80,10 @@ export default function Login() {
             </label>
             <div className="relative">
               <input
-                className="input"
+                {...register("password")}
+                className="input w-full"
                 type={isPasswordVisible ? "text" : "password"}
-                value={userData.password}
                 id="password"
-                name="password"
-                onChange={handleChange}
                 placeholder={t("login.passwordPlaceholder")}
               />
               <button
@@ -127,12 +95,13 @@ export default function Login() {
               </button>
             </div>
             <div className="text-red-500 min-h-[1.5rem] max-w-[250px]">
-              {formErrors.password}
+              {errors.password?.message}
             </div>
           </div>
           {authError && <div className="text-red-500">{authError}</div>}
           <button
             type="submit"
+            disabled={isSubmitting}
             className="btn mb-5 mt-4 bg-purple-600 hover:bg-purple-700 transition duration-300 border-purple-800"
           >
             {t("login.submit")}
