@@ -1,40 +1,42 @@
-import { useTranslation } from "react-i18next"
-import { useState } from "react"
-import ConfirmModal from "../layout/ConfirmModal"
-import MessageModal from "../layout/MessageModal"
-import { friendsService } from "../../services/friendsService"
-import pfpDefault from '../../assets/pfp-default.png'
-import { getAvatarUrl } from "../../lib/utils"
-import SuggestHabitModal from "./SuggestHabitModal"
-import UserDetailsModal from "./UserDetailsModal"
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import ConfirmModal from "../layout/ConfirmModal";
+import MessageModal from "../layout/MessageModal";
+import { friendsService } from "../../services/friendsService";
+import pfpDefault from "../../assets/pfp-default.png";
+import { getAvatarUrl } from "../../lib/utils";
+import SuggestHabitModal from "./SuggestHabitModal";
+import UserDetailsModal from "./UserDetailsModal";
 
 export default function FriendsList({ friends, refetchFriends }) {
-  const { t } = useTranslation()
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
-  const [isMessageModalVisible, setIsMessageModalVisible] = useState(false)
-  const [message, setMessage] = useState('')
-  const [selectedFriendId, setSelectedFriendId] = useState(null)
-  const [isSuggestModalVisible, setIsSuggestModalVisible] = useState(false)
-  const [selectedFriend, setSelectedFriend] = useState(null)
-  const [userDetailsModalVisible, setUserDetailsModalVisible] = useState(false)
+  const { t } = useTranslation();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isMessageModalVisible, setIsMessageModalVisible] = useState(false);
+  const [message, setMessage] = useState("");
+  const [selectedFriendId, setSelectedFriendId] = useState(null);
+  const [isSuggestModalVisible, setIsSuggestModalVisible] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+  const [userDetailsModalVisible, setUserDetailsModalVisible] = useState(false);
 
   async function handleDelete() {
     try {
-      const response = await friendsService.deleteFriend(selectedFriendId)
-      setMessage(response.data.message)
-      refetchFriends()
+      const response = await friendsService.deleteFriend(selectedFriendId);
+      setMessage(response.data.message);
+      refetchFriends();
     } catch (error) {
-      setMessage(`Error: ${error.response?.data?.message || error.message}`)
+      setMessage(`Error: ${error.response?.data?.message || error.message}`);
     } finally {
-      setIsMessageModalVisible(true)
-      setIsConfirmModalOpen(false)
+      setIsMessageModalVisible(true);
+      setIsConfirmModalOpen(false);
     }
   }
 
   return (
     <div>
       {friends?.length === 0 ? (
-        <p className="text-xl text-center font-bold">{t('friends.noFriends')}</p>
+        <p className="text-xl text-center font-bold">
+          {t("friends.noFriends")}
+        </p>
       ) : (
         <ul className="flex flex-col gap-5 max-h-[300px] overflow-scroll">
           {friends?.map((friend) => (
@@ -44,12 +46,20 @@ export default function FriendsList({ friends, refetchFriends }) {
             >
               <div className="flex justify-between gap-3 flex-wrap w-full items-center">
                 <div className="flex items-center gap-4">
-                  <div onClick={()=>{setUserDetailsModalVisible(true); setSelectedFriend(friend)}} className="flex gap-3">
+                  <div
+                    onClick={() => {
+                      setUserDetailsModalVisible(true);
+                      setSelectedFriend(friend);
+                    }}
+                    className="flex gap-3"
+                  >
                     <img
                       className="border-2 border-[#292139] rounded-lg w-[50px] h-[50px] object-cover shadow-lg"
                       src={getAvatarUrl(friend)}
                       alt={`${friend.username}'s avatar`}
-                      onError={(e) => { e.target.src = pfpDefault; }}
+                      onError={(e) => {
+                        e.target.src = pfpDefault;
+                      }}
                     />
                     <div className="flex flex-col">
                       <p className="text-xl font-bold">{friend.username}</p>
@@ -60,8 +70,8 @@ export default function FriendsList({ friends, refetchFriends }) {
                 <div className="habit-btn">
                   <button
                     onClick={() => {
+                      setSelectedFriendId(friend?.id);
                       setIsConfirmModalOpen(true);
-                      setSelectedFriend(friend)
                     }}
                     className="text-2xl font-bold -mt-[3px]"
                   >
@@ -69,8 +79,14 @@ export default function FriendsList({ friends, refetchFriends }) {
                   </button>
                 </div>
               </div>
-              <button onClick={()=>{setIsSuggestModalVisible(true); setSelectedFriend(friend)}} className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg">
-                {t('friendsList.proposeHabit')}
+              <button
+                onClick={() => {
+                  setSelectedFriendId(friend?.id);
+                  setIsSuggestModalVisible(true);
+                }}
+                className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg"
+              >
+                {t("friendsList.proposeHabit")}
               </button>
             </li>
           ))}
@@ -80,7 +96,7 @@ export default function FriendsList({ friends, refetchFriends }) {
         <ConfirmModal
           onClose={() => setIsConfirmModalOpen(false)}
           onConfirm={handleDelete}
-          message={t('friendsList.deleteFriend') + '?'}
+          message={t("friendsList.deleteFriend") + "?"}
         />
       )}
       {isMessageModalVisible && (
@@ -89,16 +105,20 @@ export default function FriendsList({ friends, refetchFriends }) {
           message={message}
         />
       )}
-      {
-        isSuggestModalVisible && (
-          <SuggestHabitModal onClose={()=>(setIsSuggestModalVisible(false))} friend={selectedFriend}/>
-        )
-      }
-      {
-        userDetailsModalVisible && (
-          <UserDetailsModal onClose={()=>{setUserDetailsModalVisible(false)}} userData={selectedFriend}/>
-        )
-      }
+      {isSuggestModalVisible && (
+        <SuggestHabitModal
+          onClose={() => setIsSuggestModalVisible(false)}
+          friend={selectedFriend}
+        />
+      )}
+      {userDetailsModalVisible && (
+        <UserDetailsModal
+          onClose={() => {
+            setUserDetailsModalVisible(false);
+          }}
+          userData={selectedFriend}
+        />
+      )}
     </div>
   );
 }
