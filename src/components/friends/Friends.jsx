@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Navigation from "../layout/Navigation";
-import useFetch from "../hooks/useFetch";
 import { friendsService } from "../../services/friendsService";
 import { useState } from "react";
 import FindFriendsModal from "./FindFriendsModal";
@@ -9,12 +8,15 @@ import arrow from "../../assets/arrow-bottom.png";
 import FriendsList from "./FriendsList";
 import { useTranslation } from "react-i18next";
 import Spinner from "../layout/Spinner";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Friends() {
   const { t } = useTranslation();
-  const { data: friends, refetch: refetchFriends } = useFetch(
-    friendsService.getUserFriends
-  );
+  const { data: friends, refetch: refetchFriends } = useQuery({
+    queryKey: ["userFriends"],
+    queryFn: async () => (await friendsService.getUserFriends()).data,
+  });
+
   const [isFindModalOpen, setIsFindModalOpen] = useState(false);
   const [requestsVisible, setRequestsVisible] = useState(false);
   const navigate = useNavigate();

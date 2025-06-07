@@ -7,7 +7,6 @@ import { shopService } from "../../services/shopService";
 import { levelsService } from "../../services/levelsService";
 import Spinner from "../layout/Spinner";
 import { useNavigate } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
 import PuzzlesModal from "./PuzzlesModal";
 import StatsModal from "./StatsModal";
 import EditModal from "./EditModal";
@@ -18,15 +17,26 @@ import UserData from "./UserData";
 import UserStats from "./UserStats";
 import UserCards from "./UserCards";
 import ProfileButtons from "./ProfileButtons";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const { t } = useTranslation();
-  const { data: userPuzzleSets } = useFetch(levelsService.getUserSets);
-  const { data: userData, refetch: refetchUserData } = useFetch(
-    authService.getCurrentUser
-  );
-  const { data: userCards } = useFetch(shopService.getUserCards);
-  const { data: userPuzzles } = useFetch(levelsService.getUserPuzzles);
+  const { data: userPuzzleSets } = useQuery({
+    queryKey: ["userPuzzleSets"],
+    queryFn: async () => (await levelsService.getUserSets()).data,
+  });
+  const { data: userData, refetch: refetchUserData } = useQuery({
+    queryKey: ["userStats"],
+    queryFn: async () => (await authService.getCurrentUser()).data,
+  });
+  const { data: userCards } = useQuery({
+    queryKey: "userCards",
+    queryFn: async () => (await shopService.getUserCards()).data,
+  });
+  const { data: userPuzzles } = useQuery({
+    queryKey: "userPuzzles",
+    queryFn: async () => (await levelsService.getUserPuzzles()).data,
+  });
   const [completedSets, setCompletedSets] = useState(0);
   const [isPuzzlesModalOpen, setIsPuzzlesModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);

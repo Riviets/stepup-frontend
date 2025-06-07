@@ -1,14 +1,17 @@
 import close from "../../assets/close.svg";
 import { useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
 import { authService } from "../../services/authService";
 import { userService } from "../../services/userService";
 import { useTranslation } from "react-i18next";
 import Button from "../buttons/Button";
+import { useQuery } from "@tanstack/react-query";
 
 export default function EditModal({ onClose, refetchUserData }) {
   const { t } = useTranslation();
-  const { data: userData } = useFetch(authService.getCurrentUser);
+  const { data: userData } = useQuery({
+    queryKey: ["userData"],
+    queryFn: async () => (await authService.getCurrentUser()).data,
+  });
   const [usernameText, setUsernameText] = useState(t("editModal.loading"));
   const [isLoading, setIsLoading] = useState(false);
 

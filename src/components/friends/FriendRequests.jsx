@@ -1,12 +1,15 @@
 import { friendsService } from "../../services/friendsService";
-import useFetch from "../hooks/useFetch";
 import tick from "../../assets/tick.svg";
 import close from "../../assets/close.svg";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
 
 export default function FriendRequests({ refetchFriends }) {
   const { t } = useTranslation();
-  const { data: userRequests } = useFetch(friendsService.getUSerRequests);
+  const { data: userRequests } = useQuery({
+    queryKey: "userRequests",
+    queryFn: async () => (await friendsService.getUserRequests()).data,
+  });
 
   async function handleConfirm(requestId) {
     try {
@@ -28,7 +31,9 @@ export default function FriendRequests({ refetchFriends }) {
   return (
     <div>
       {userRequests?.length === 0 ? (
-        <p className="py-6 text-lg font-semibold">{t('friendRequests.noRequests')}</p>
+        <p className="py-6 text-lg font-semibold">
+          {t("friendRequests.noRequests")}
+        </p>
       ) : (
         <ul className="py-6">
           {userRequests?.map((request) => (

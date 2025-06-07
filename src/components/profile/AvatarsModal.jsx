@@ -1,13 +1,16 @@
 import { useTranslation } from "react-i18next";
 import close from "../../assets/close.svg";
-import useFetch from "../hooks/useFetch";
 import { userService } from "../../services/userService";
 import { REACT_APP_API_URL } from "../../lib/constants";
 import Spinner from "../layout/Spinner";
+import { useQuery } from "@tanstack/react-query";
 
 export default function AvatarsModal({ onClose, refetchUserData }) {
   const { t } = useTranslation();
-  const { data: avatars, isLoading } = useFetch(userService.getAvatars);
+  const { data: avatars, isLoading } = useQuery({
+    queryKey: ["avatars"],
+    queryFn: async () => (await userService.getAvatars()).data,
+  });
 
   function getAvatarUrl(avatar) {
     return `${REACT_APP_API_URL}${avatar?.image_url}`;

@@ -1,5 +1,4 @@
 import Slider from "react-slick";
-import useFetch from "../hooks/useFetch";
 import puzzle from "../../assets/puzzle.svg";
 import coins from "../../assets/coins.svg";
 import { levelsService } from "../../services/levelsService";
@@ -9,13 +8,24 @@ import { useState, useEffect, useRef } from "react";
 import MessageModal from "../layout/MessageModal";
 import { useTranslation } from "react-i18next";
 import Layout from "../layout/Layout";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Levels() {
   const { t } = useTranslation();
-  const { data: levels, error, refetch } = useFetch(levelsService.getAllLevels);
-  const { data: userData, refetch: refetchUser } = useFetch(
-    authService.getCurrentUser
-  );
+  const {
+    data: levels,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["levels"],
+    queryFn: async () => (await levelsService.getAllLevels()).data,
+  });
+
+  const { data: userData, refetch: refetchUser } = useQuery({
+    queryKey: ["userData"],
+    queryFn: async () => (await authService.getCurrentUser()).data,
+  });
+
   const [modalMessage, setModalMessage] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [completingLevel, setCompletingLevel] = useState(false);

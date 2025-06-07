@@ -2,7 +2,6 @@ import Navigation from "../layout/Navigation";
 import Spinner from "../layout/Spinner";
 import UserStats from "../layout/UserStats";
 import deck from "../../assets/deck.png";
-import useFetch from "../hooks/useFetch";
 import card2 from "../../assets/card-2.svg";
 import { shopService } from "../../services/shopService";
 import CardModal from "./CardModal";
@@ -12,15 +11,20 @@ import MessageModal from "../layout/MessageModal";
 import { CARDS_NUMBER } from "../../lib/constants";
 import { useTranslation } from "react-i18next";
 import Layout from "../layout/Layout";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Shop() {
   const { t } = useTranslation();
-  const { data: cardsData, refetch: refetchUserData } = useFetch(
-    shopService.getCards
-  );
-  const { data: userCards, refetch: refetchUserCards } = useFetch(
-    shopService.getUserCards
-  );
+  const { data: cardsData, refetch: refetchUserData } = useQuery({
+    queryKey: ["cardsData"],
+    queryFn: async () => (await shopService.getCards()).data,
+  });
+
+  const { data: userCards, refetch: refetchUserCards } = useQuery({
+    queryKey: ["userCards"],
+    queryFn: async () => (await shopService.getUserCards()).data,
+  });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [message, setMessage] = useState("");

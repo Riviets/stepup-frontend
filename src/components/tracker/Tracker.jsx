@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import analythics from "../../assets/analythics.svg";
-import useFetch from "../hooks/useFetch";
+import { useQuery } from "@tanstack/react-query";
 import xp from "../../assets/xp.svg";
 import tick from "../../assets/tick.svg";
 import { trackerService } from "../../services/trackerService";
@@ -15,9 +15,11 @@ export default function Tracker() {
   const { t } = useTranslation();
   const date = new Date();
   const [formatedDate, setFormatedDate] = useState("");
-  const { data: habitsInTracker, refetch: refetchHabitsInTracker } = useFetch(
-    trackerService.getHabitsInTracker
-  );
+  const { data: habitsInTracker, refetch: refetchHabitsInTracker } = useQuery({
+    queryKey: ["habitsInTracker"],
+    queryFn: async () => (await trackerService.getHabitsInTracker()).data,
+  });
+
   const [message, setMessage] = useState("");
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [isAnalythicsVisible, setIsAnalythicsVisible] = useState(false);

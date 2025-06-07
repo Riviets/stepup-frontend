@@ -1,5 +1,4 @@
-import React from "react";
-import useFetch from "../hooks/useFetch";
+import { useQuery } from "@tanstack/react-query";
 import { trackerService } from "../../services/trackerService";
 import {
   LineChart,
@@ -19,7 +18,10 @@ export default function Analytics({ onClose }) {
     data: analyticsData,
     isLoading,
     error,
-  } = useFetch(trackerService.getAnalytics);
+  } = useQuery({
+    queryKey: ["analyticsData"],
+    queryFn: async () => (await trackerService.getAnalytics()).data,
+  });
 
   const formatChartData = (dailyData) => {
     if (!dailyData) return [];

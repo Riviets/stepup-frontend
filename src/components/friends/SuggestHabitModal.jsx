@@ -2,15 +2,16 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import close from "../../assets/close.svg";
 import { habitsService } from "../../services/habitsService";
-import useFetch from "../hooks/useFetch";
 import { Dropdown, DropdownItem } from "../utils/Dropdown";
 import MessageModal from "../layout/MessageModal";
 
 export default function SuggestHabitModal({ onClose, friend }) {
   const { t } = useTranslation();
-  const { data: customHabits, isLoading } = useFetch(
-    habitsService.getUserHabits
-  );
+  const { data: customHabits, isLoading } = useQuery({
+    queryKey: ["customHabits"],
+    queryFn: async () => (await habitsService.getUserHabits()).data,
+  });
+
   const [selectedHabitId, setSelectedHabitId] = useState(null);
   const [isSent, setIsSent] = useState(false);
   const [isMessageModalVisible, setIsMessageModalVisible] = useState(false);

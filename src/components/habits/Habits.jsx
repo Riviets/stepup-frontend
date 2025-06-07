@@ -1,4 +1,3 @@
-import useFetch from "../hooks/useFetch";
 import Spinner from "../layout/Spinner";
 import { useState } from "react";
 import { habitsService } from "../../services/habitsService";
@@ -12,6 +11,7 @@ import UserHabitsList from "./UserHabitsList";
 import xp from "../../assets/xp.svg";
 import { useNavigate } from "react-router-dom";
 import Layout from "../layout/Layout";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Habits() {
   const { t } = useTranslation();
@@ -24,13 +24,20 @@ export default function Habits() {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedHabitId, setSelectedHabitId] = useState(0);
 
-  const { data: defaultHabits } = useFetch(habitsService.getDefaultHabits);
-  const { data: userHabits, refetch: refetchUserHabits } = useFetch(
-    habitsService.getUserHabits
-  );
-  const { data: suggestedHabits, refetch: refetchSuggestedHabits } = useFetch(
-    habitsService.getSuggestedHabits
-  );
+  const { data: defaultHabits } = useQuery({
+    queryKey: ["defaultHabits"],
+    queryFn: async () => (await habitsService.getDefaultHabits()).data,
+  });
+
+  const { data: userHabits, refetch: refetchUserHabits } = useQuery({
+    queryKey: ["userHabits"],
+    queryFn: async () => (await habitsService.getUserHabits()).data,
+  });
+
+  const { data: suggestedHabits, refetch: refetchSuggestedHabits } = useQuery({
+    queryKey: ["suggestedHabits"],
+    queryFn: async () => (await habitsService.getSuggestedHabits()).data,
+  });
 
   const navigate = useNavigate();
 
