@@ -239,7 +239,9 @@ const resources = {
         success: "Звичку успішно запропоновано",
         errors: {
           habitRequired: "Будь ласка, виберіть звичку",
-          alreadySuggested: "Ви вже запропонували цю звичку",
+          invalidFriend: "Вибрано невідомого друга",
+          alreadySuggested: "Ви вже пропонували цю звичку",
+          generic: "Щось пішло не так. Спробуйте ще раз",
         },
       },
       login: {
@@ -509,14 +511,16 @@ const resources = {
         closeAlt: "Close avatars modal",
       },
       suggestHabitModal: {
-        title: "Suggest {{username}} a habit",
+        title: "Suggest a habit to {{username}}",
         select: "Select a habit",
         send: "Send",
-        closeAlt: "Close suggest habit modal",
-        success: "Habit successfully suggested",
+        closeAlt: "Close",
+        success: "Habit suggested successfully!",
         errors: {
           habitRequired: "Please select a habit",
-          alreadySuggested: "You already suggested this habit",
+          invalidFriend: "Invalid friend selected",
+          alreadySuggested: "You have already suggested this habit",
+          generic: "Something went wrong. Please try again.",
         },
       },
       login: {

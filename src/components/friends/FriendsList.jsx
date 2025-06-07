@@ -81,7 +81,7 @@ export default function FriendsList({ friends, refetchFriends }) {
               </div>
               <button
                 onClick={() => {
-                  setSelectedFriendId(friend?.id);
+                  setSelectedFriend(friend);
                   setIsSuggestModalVisible(true);
                 }}
                 className="bg-purple-700 text-white font-bold text-lg tracking-wider border border-[#292139] rounded-md shadow-lg"

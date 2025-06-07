@@ -22,19 +22,29 @@ export default function SuggestHabitModal({ onClose, friend }) {
       setIsMessageModalVisible(true);
       return;
     }
+    if (!friend?.id) {
+      setMessage(t("suggestHabitModal.errors.invalidFriend"));
+      setIsMessageModalVisible(true);
+      return;
+    }
 
     setIsSent(true);
     try {
-      console.log(`Friend Id: ${friend?.id}, Habit id: ${selectedHabitId}`);
-      const response = await habitsService.suggestHabit(
-        friend?.id,
-        selectedHabitId
+      console.log(`Friend Id: ${friend.id}, Habit id: ${selectedHabitId}`);
+      await habitsService.suggestHabit(
+        Number(friend.id),
+        Number(selectedHabitId)
       );
       setMessage(t("suggestHabitModal.success"));
       setSelectedHabitId(null);
     } catch (error) {
-      setMessage(t("suggestHabitModal.errors.alreadySuggested"));
-      console.log(error);
+      const errorMessage = error.response?.data?.message;
+      setMessage(
+        errorMessage === "alreadySuggested"
+          ? t("suggestHabitModal.errors.alreadySuggested")
+          : errorMessage || t("suggestHabitModal.errors.generic")
+      );
+      console.log("Error:", error.response?.data || error.message);
     } finally {
       setIsSent(false);
       setIsMessageModalVisible(true);

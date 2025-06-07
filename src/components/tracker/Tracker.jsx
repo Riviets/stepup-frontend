@@ -9,6 +9,7 @@ import Analytics from "./Analythics";
 import { useTranslation } from "react-i18next";
 import Spinner from "../layout/Spinner";
 import Layout from "../layout/Layout";
+import Button from "../buttons/Button";
 
 export default function Tracker() {
   const { t } = useTranslation();
@@ -21,6 +22,7 @@ export default function Tracker() {
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [isAnalythicsVisible, setIsAnalythicsVisible] = useState(false);
   const [dailyCompletionsIds, setDailyCompletionsIds] = useState([]);
+  const [bonusIsCollecting, setBonusIsCollecting] = useState(false);
   const refetchUserData = useRef(null);
 
   function formatDate(num) {
@@ -62,6 +64,7 @@ export default function Tracker() {
 
   async function handleCollectBonus() {
     try {
+      setBonusIsCollecting(true);
       const formatedDate = formFormatedDateString();
       const response = await trackerService.claimBonus(formatedDate);
       setMessage(t("tracker.bonusReceived"));
@@ -70,6 +73,9 @@ export default function Tracker() {
     } catch (error) {
       setMessage(error.response?.data?.message || t("tracker.serverError"));
       setIsMessageModalOpen(true);
+      setBonusIsCollecting(false);
+    } finally {
+      setBonusIsCollecting(false);
     }
   }
 
@@ -176,12 +182,13 @@ export default function Tracker() {
                 )}
               </div>
               <div className="flex items-center justify-center">
-                <button
+                <Button
                   onClick={handleCollectBonus}
                   className="border-1 border-[#483D61] px-[30px] rounded-md bg-[#FFCE68] text-white tracking-wider font-bold [text-shadow:0px_1px_3px_black] mt-5 text-lg"
+                  isSubmitting={bonusIsCollecting}
                 >
                   {t("tracker.collectBonus")}
-                </button>
+                </Button>
               </div>
             </div>
           </div>

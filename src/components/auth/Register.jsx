@@ -7,6 +7,7 @@ import { eyeClosedIcon, eyeOpenedIcon } from "../../constants";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Button from "../buttons/Button";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -37,17 +38,14 @@ export default function Register() {
     mode: "onChange",
   });
 
-  // Watch the username value to clear errors when it changes
   const username = watch("username");
 
   useEffect(() => {
-    // Focus on username field when component mounts
     if (usernameRef.current) {
       usernameRef.current.focus();
     }
   }, []);
 
-  // Clear username error when user types
   useEffect(() => {
     if (username && errors.username) {
       clearErrors("username");
@@ -131,13 +129,16 @@ export default function Register() {
             </div>
           </div>
           {authError && <div className="text-red-500">{authError}</div>}
-          <button
+          <Button
             type="submit"
-            disabled={isSubmitting}
-            className="btn mb-5 mt-4 bg-purple-600 hover:bg-purple-700 transition duration-300 border-purple-800"
+            className={`${
+              isSubmitting
+                ? "bg-gray-400 hover:bg-gray-500"
+                : "bg-purple-600 hover:bg-purple-700"
+            } btn mb-5 mt-4  transition duration-300 border-purple-800`}
           >
             {t("register.submit")}
-          </button>
+          </Button>
         </form>
         <div className="flex gap-2 items-center text-gray-500">
           {t("register.alreadyRegistered")}
