@@ -4,6 +4,7 @@ import close from "../../assets/close.svg";
 import { habitsService } from "../../services/habitsService";
 import { Dropdown, DropdownItem } from "../utils/Dropdown";
 import MessageModal from "../layout/MessageModal";
+import { useQuery } from "@tanstack/react-query";
 
 export default function SuggestHabitModal({ onClose, friend }) {
   const { t } = useTranslation();
